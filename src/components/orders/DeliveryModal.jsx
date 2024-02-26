@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { newDelivery } from "../redux/delivery/deliveryThunk"
+import { newDelivery } from "../../redux/delivery/deliveryThunk"
 
 // eslint-disable-next-line react/prop-types
 export const DeliveryModal = ({orderId}) => {

@@ -1,0 +1,29 @@
+.navbar {
+  background-color: #ffffff; /* Color de fondo */
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar a {
+  text-decoration: none; /* Quitar subrayado de los enlaces */
+  color: #fff; /* Color del texto */
+  margin-right: 15px; /* Espaciado entre elementos */
+}
+
+.navbar a:hover {
+  text-decoration: underline; /* Subrayado al pasar el mouse */
+}
+
+.navbar-brand .iconoCompany {
+  width: 50px; /* Ancho del logo */
+  height: 60px; /* Altura del logo */
+  
+}
+
+.navbar-brand .nombreCompany {
+    width: 200px; /* Ancho del logo */
+    height: 40px; /* Altura del logo */
+    
+  }
+

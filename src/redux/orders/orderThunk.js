@@ -1,53 +1,216 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+const url_base = import.meta.env.VITE_BACKEND_API;
 
-export const getAllOrders = createAsyncThunk(
-    "orders/all_orders",
-    async () => {
-        const url_api = "http://localhost:4000/api/all_orders";
-        const token = ''
-        const headers = {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: token,
-            },
-        };
+export const getAllPendingUserOrders = createAsyncThunk(
+  "orders/all_pending_user_orders",
+  async (_, { getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/all_pending_user_orders`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
 
-        try {
-            const res_orders = await axios.get(url_api, headers);
-            if (res_orders.data.success) {
-                console.log(res_orders.data)
-                return res_orders.data
-            }
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+    try {
+      const res_orders = await axios.get(url_api, headers);
+      if (res_orders.data.success) {
+        return res_orders.data.pending_user_orders;
+      }
+    } catch (error) {
+      throw error;
     }
+  }
+);
+
+// Thunks para obtener órdenes en proceso del usuario
+export const getAllInProcessUserOrders = createAsyncThunk(
+  "orders/all_in_process_user_orders",
+  async (_, { getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/all_in_process_user_orders`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
+
+    try {
+      const res_orders = await axios.get(url_api, headers);
+      if (res_orders.data.success) {
+        return res_orders.data.process_user_orders;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+// Thunks para obtener órdenes completadas del usuario
+export const getAllCompletedUserOrders = createAsyncThunk(
+  "orders/all_completed_user_orders",
+  async (_, { getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/all_completed_user_orders`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
+
+    try {
+      const res_orders = await axios.get(url_api, headers);
+      if (res_orders.data.success) {
+        return res_orders.data.completed_user_orders;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+// Thunks para obtener todas las órdenes pendientes (solo para administradores)
+export const getAllPendingOrders = createAsyncThunk(
+  "orders/all_pending_orders",
+  async (_, { getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/all_pending_orders`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
+
+    try {
+      const res_orders = await axios.get(url_api, headers);
+      if (res_orders.data.success) {
+        return res_orders.data.pending_all_orders;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+// Thunks para obtener todas las órdenes en proceso (solo para administradores)
+export const getAllInProcessOrders = createAsyncThunk(
+  "orders/all_in_process_orders",
+  async (_, { getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/all_in_process_orders`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
+
+    try {
+      const res_orders = await axios.get(url_api, headers);
+      if (res_orders.data.success) {
+        return res_orders.data.process_all_orders;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+// Thunks para obtener todas las órdenes completadas (solo para administradores)
+export const getAllCompletedOrders = createAsyncThunk(
+  "orders/all_completed_orders",
+  async (_, { getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/all_completed_orders`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
+
+    try {
+      const res_orders = await axios.get(url_api, headers);
+      if (res_orders.data.success) {
+        return res_orders.data.completed_all_orders;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+
+// Thunk para renovar una orden
+export const renewOrder = createAsyncThunk(
+  "orders/renew_order",
+  async ({ id, orderData }, { getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/renew_order/${id}`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
+
+    try {
+      const res = await axios.put(url_api, orderData, headers);
+      if (res.data.success) {
+        return res.data.updatedOrder;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 );
 
 export const updateOrderData = createAsyncThunk(
-    "orders/update_order_data",
-    async ({ id,  order_date, order_due_date, amount_paid, recharges_delivered, recharges_in_favor, observation }) => {
-        const url_api = `http://localhost:4000/api/update_order_data/${id}`;
-        const token = ''
-        const headers = {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: token,
-            }
-        };
+  "orders/update_order_data",
+  async ({
+    id,
+    order_date,
+    order_due_date,
+    amount_paid,
+    recharges_delivered,
+    recharges_in_favor,
+    observation,
+  }) => {
+    const url_api = url_base + `/update_order_data/${id}`;
+    const token = "";
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
 
-        try {
-            const updateOrder = await axios.put(url_api, { order_date, order_due_date, amount_paid, recharges_delivered, recharges_in_favor, observation }, headers);
+    try {
+      const updateOrder = await axios.put(
+        url_api,
+        {
+          order_date,
+          order_due_date,
+          amount_paid,
+          recharges_delivered,
+          recharges_in_favor,
+          observation,
+        },
+        headers
+      );
 
-            if (updateOrder.data) {
-                console.log(updateOrder.data)
-            }
-        } catch (error) {
-            console.log(error);
-            console.log(error.message);
-            throw error;
-        }
+      if (updateOrder.data) {
+        console.log(updateOrder.data);
+      }
+    } catch (error) {
+      console.log(error);
+      console.log(error.message);
+      throw error;
     }
+  }
 );

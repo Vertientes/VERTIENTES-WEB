@@ -1,0 +1,59 @@
+/* loginStyles.css */
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  width: 400px;
+  height: 500px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.loginLogo {
+  border-color: #003cff;
+  border-radius: 200px;
+  border-width: 1px;
+}
+
+.card-content {
+  padding: 10px; /* Ajusta el relleno según tus necesidades */
+  background-color: #ffffff;
+}
+
+.loginForm {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loginInputs {
+  margin-bottom: 20px;
+  border-width: 0.5px;
+  border-color: #00e5ff;
+  border-radius: 100px;
+  background-color: "white";
+  padding: 15px;
+  width: 300px;
+}
+
+.loginButton {
+  margin-top: 20px; /* Aumenta el margen superior */
+  padding: 10px 20px;
+  background-color: #00c3ff;
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  width: 150px;
+}
+
+.loginButton:hover {
+  background-color: #005a74;
+}
