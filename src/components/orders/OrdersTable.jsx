@@ -5,7 +5,7 @@ import { EditOrderModal } from "./EditOrderModal";
 import { FiEdit, FiEdit2, FiTruck } from "react-icons/fi";
 import { FaTruckArrowRight } from "react-icons/fa6";
 import { TbListDetails } from "react-icons/tb";
-import "./ordersStyles.css"; // Importar el archivo CSS
+/* import "./ordersStyles.css"; // Importar el archivo CSS */
 import ModalDetailOrder from "./ModalDetailOrder";
 
 const OrdersTable = () => {
