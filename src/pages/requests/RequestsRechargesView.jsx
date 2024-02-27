@@ -1,22 +1,20 @@
 import React, { useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { getAllPendingOrders } from "../../redux/orders/orderThunk";
-import OrdersTable from "../../components/orders/OrdersTable";
 import MenuNavbar from "../../components/layout/NavBar";
 import { menuItems } from "../../utils/menu-items";
+import { getAllInProcessOrders } from "../../redux/orders/orderThunk";
 
-const Home = () => {
+const RequestsRechargesView = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchOrders = async () => {
-      await dispatch(getAllPendingOrders());
+      await dispatch(getAllInProcessOrders());
     };
 
     fetchOrders();
   }, [dispatch]);
-
   return (
     <Container fluid className="h-100">
       <Row className="h-100">
@@ -24,12 +22,11 @@ const Home = () => {
           <MenuNavbar menuItems={menuItems} />
         </Col>
         <Col sm={9}>
-          <h2>Pedidos pendientes</h2>
-          <OrdersTable />
+          <h2>Solicitudes de recargas</h2>
         </Col>
       </Row>
     </Container>
   );
 };
 
-export default Home;
+export default RequestsRechargesView;

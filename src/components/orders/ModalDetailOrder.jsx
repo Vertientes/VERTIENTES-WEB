@@ -1,54 +1,48 @@
-import React, { useEffect, useState } from "react";
-import "./ModalDetailOrder.css"; // Importar estilos CSS
+import { useState, useEffect } from "react";
+import { Modal, Button, Row, Col } from "react-bootstrap";
 
 const ModalDetailOrder = ({ order, visible, closeModal }) => {
   const [orderDetail, setOrderDetail] = useState({});
 
   useEffect(() => {
-    // Verificar si la orden recibida es válida y no está vacía
     if (order && Object.keys(order).length > 0) {
       setOrderDetail(order);
     }
   }, [order]);
 
   return (
-    <div className={`modal ${visible ? "visible" : ""}`}>
-      <div className="modal-content">
-        <span onClick={closeModal} className="close-button">
-          &times;
-        </span>
-        {orderDetail && Object.keys(orderDetail).length > 0 && ( // Validar que orderDetail no esté vacío
-          <div style={{ textAlign: "center" }}>
-            <h2 className="modal-title">Detalles de la Orden</h2>
-            <p>
-              <strong>Fecha de la Orden:</strong> {orderDetail.order_date}
-            </p>
-
-            <div className="order-details">
-              <div className="order-info">
+    <Modal show={visible} onHide={closeModal} centered>
+      <Modal.Header closeButton>
+        <Modal.Title className="text-center">Detalles de la Orden</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {Object.keys(orderDetail).length > 0 && (
+          <div>
+            <Row>
+              <Col>
                 <h3>Orden</h3>
-
                 <p>
-                  <strong>Fecha de Entrega:</strong>{" "}
-                  {orderDetail.order_due_date}
+                  <strong>Fecha de la Orden:</strong> {orderDetail.order_date}
                 </p>
                 <p>
-                  <strong>Método de Pago:</strong>{" "}
-                  {orderDetail.payment_method}
+                  <strong>Fecha de Entrega:</strong> {orderDetail.order_due_date}
+                </p>
+                <p>
+                  <strong>Método de Pago:</strong> {orderDetail.payment_method}
                 </p>
                 <p>
                   <strong>Estado:</strong> {orderDetail.status}
                 </p>
-              </div>
-
-              <div className="customer-details">
+              </Col>
+              <Col>
                 <h3>Cliente</h3>
                 <p>
                   {orderDetail?.user.first_name} {orderDetail?.user.last_name}
                 </p>
-              </div>
-
-              <div className="payment-details">
+              </Col>
+            </Row>
+            <Row>
+              <Col>
                 <h3>Detalles de Pago</h3>
                 <p>
                   <strong>Total:</strong> {orderDetail.total_amount}
@@ -56,24 +50,29 @@ const ModalDetailOrder = ({ order, visible, closeModal }) => {
                 <p>
                   <strong>Monto Pagado:</strong> {orderDetail.amount_paid}
                 </p>
-              </div>
-
-              <div className="product-details">
+              </Col>
+              <Col>
                 <h3>Producto</h3>
-                <p>{orderDetail.product?.name}</p> {/* Validar que el producto esté presente */}
+                <p>{orderDetail.product?.name}</p>
                 <h3>Cantidad</h3>
                 <p>{orderDetail.quantity}</p>
-              </div>
-
-              <div className="observation">
+              </Col>
+            </Row>
+            <Row>
+              <Col>
                 <h3>Observaciones</h3>
                 <p>{orderDetail.observation}</p>
-              </div>
-            </div>
+              </Col>
+            </Row>
           </div>
         )}
-      </div>
-    </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={closeModal}>
+          Cerrar
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

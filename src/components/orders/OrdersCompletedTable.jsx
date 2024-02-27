@@ -1,37 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Table, Button } from "react-bootstrap";
-import { CiEdit } from "react-icons/ci";
 import { FaTruckArrowRight } from "react-icons/fa6";
 import { BiDetail } from "react-icons/bi";
-import { BsBoxArrowInDown, BsPencilSquare } from "react-icons/bs"; // Importar iconos de React Bootstrap
 import ModalDetailOrder from "./ModalDetailOrder";
-import { EditOrderModal } from "./EditOrderModal";
-import { DeliveryModal } from "./DeliveryModal";
 
-const OrdersTable = () => {
+
+const OrdersCompletedTable = () => {
   const [orderDetail, setOrderDetail] = useState({});
   const orders = useSelector((state) => state.orders.pendingOrders);
   const [modalVisible, setModalVisible] = useState(false);
   const [editOrderModalVisible, setEditOrderModalVisible] = useState(false);
-  const [deliveryModalVisible, setDeliveryModalVisible] = useState(false);
-  const [orderId, setOrderId] = useState("");
-  const [order, setOrder] = useState({});
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [orderId, setOrderId] = useState('')
 
-  const handleDeliveryModal = (orderId) => {
+  const handleDeleteOrder = (orderId) => {
     setOrderId(orderId);
-    setDeliveryModalVisible(true);
+    setDeleteModalVisible(true);
   };
 
-  const handleEditOrderModal = (order) => {
-    setOrder(order);
-    setEditOrderModalVisible(true);
-  };
 
   const closeModal = () => {
     setModalVisible(false);
     setEditOrderModalVisible(false);
-    setDeliveryModalVisible(false);
+    setDeleteModalVisible(false);
   };
 
   useEffect(() => {
@@ -48,7 +40,7 @@ const OrdersTable = () => {
             <th>Cliente</th>
             <th>Observacion</th>
             <th>Detalles</th>
-            <th>Acciones</th>
+            <th>Eliminar</th>
           </tr>
         </thead>
         <tbody>
@@ -71,18 +63,11 @@ const OrdersTable = () => {
                   />
                 </td>
                 <td className="d-flex justify-content-between">
-                  <div>
-                    <CiEdit
-                      className="action-icon"
-                      onClick={() => handleEditOrderModal(order)}
-                      size={25}
-                    />
-                  </div>
                   <div className="ml-3">
                     {/* Agregamos un margen izquierdo para espaciar */}
                     <FaTruckArrowRight
                       className="action-icon"
-                      onClick={() => handleDeliveryModal(order._id)}
+                      onClick={() => handleDeleteOrder(order._id)}
                       size={30}
                     />
                   </div>
@@ -104,20 +89,13 @@ const OrdersTable = () => {
           closeModal={closeModal}
         />
       )}
-
-      <EditOrderModal
-        order={order}
-        visible={editOrderModalVisible}
-        closeModal={closeModal}
-      />
-
+{/* 
       <DeliveryModal
         orderId={orderId}
-        visible={deliveryModalVisible}
         closeModal={closeModal}
-      />
+      /> */}
     </div>
   );
 };
 
-export default OrdersTable;
+export default OrdersCompletedTable;

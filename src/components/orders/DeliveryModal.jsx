@@ -1,43 +1,43 @@
-import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
-import { newDelivery } from "../../redux/delivery/deliveryThunk"
+import { useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { newDelivery } from "../../redux/delivery/deliveryThunk";
 
-// eslint-disable-next-line react/prop-types
-export const DeliveryModal = ({orderId}) => {
-    const dispatch = useDispatch()
-    const [delivery_date, set_delivery_date] = useState('')
-    const handleChangeInput = (event) => {
-        const parse = `${event.target.value}:00.000Z`
-        set_delivery_date(parse)
-    }
-    const new_delivery = async () => {
-        await dispatch(newDelivery({ id: orderId, delivery_date }))
-    }
-    useEffect(() => {
-        console.log(orderId)
-    }, [orderId])
-    return (
-        <div className="modal fade" id="deliveryModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div className="modal-body">
-                        <form>
-                            <div className="mb-3">
-                                <label className="form-label">Fecha de reparto</label>
-                                <input type="datetime-local" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={(e) => handleChangeInput(e)} />
-                            </div>
-                        </form>
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" className="btn btn-primary" onClick={() => { new_delivery() }}>Agregar a reparto</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
+export const DeliveryModal = ({ orderId, visible, closeModal }) => {
+  const dispatch = useDispatch();
+  const [deliveryDate, setDeliveryDate] = useState("");
+
+  const handleAddToDelivery = async () => {
+    // Dispatch de la acción para agregar a reparto con la fecha seleccionada
+    await dispatch(newDelivery({ id: orderId, delivery_date: deliveryDate }));
+    closeModal(); // Cerrar el modal después de agregar a reparto
+  };
+
+  return (
+    <Modal show={visible} onHide={closeModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>Agregar a Reparto</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group controlId="formDeliveryDate">
+            <Form.Label>Fecha de Reparto</Form.Label>
+            <Form.Control
+              type="datetime-local"
+              value={deliveryDate}
+              onChange={(e) => setDeliveryDate(e.target.value)}
+            />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={closeModal}>
+          Cerrar
+        </Button>
+        <Button variant="primary" onClick={handleAddToDelivery}>
+          Agregar a Reparto
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};

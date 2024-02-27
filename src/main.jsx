@@ -3,13 +3,12 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home } from "./pages/home/Home.jsx";
-import { DeliveryView } from "./pages/admin/deliveries/DeliveryView.jsx";
-import OrdersCompletedView from "./pages/admin/orders-completed/OrdersCompletedView.jsx";
-import RequestsRecharges from "./pages/admin/requests/RequestsRechargesView.jsx";
+import DeliveryView  from "./pages/deliveries/DeliveryView.jsx";
+import OrdersCompletedView from "./pages/orders-completed/OrdersCompletedView.jsx";
+import RequestsRecharges from "./pages/requests/RequestsRechargesView.jsx";
 import { NotFoundView } from "./pages/NotFoundView.jsx";
-import OrdersView from "./pages/admin/orders/OrdersView.jsx";
 import Login from "./pages/Login.jsx";
+import Home from "./pages/home/Home.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,20 +23,19 @@ const router = createBrowserRouter([
     errorElement: <NotFoundView />,
   },
   {
-    path: "orders",
-    element: <OrdersView />,
-  },
-  {
     path: "deliveries",
     element: <DeliveryView />,
+    errorElement: <NotFoundView />,
   },
   {
     path: "orders_completed",
     element: <OrdersCompletedView />,
+    errorElement: <NotFoundView />,
   },
   {
     path: "requests",
     element: <RequestsRecharges />,
+    errorElement: <NotFoundView />,
   },
   {
     path: "not-found",

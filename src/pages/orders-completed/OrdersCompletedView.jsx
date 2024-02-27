@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { getAllPendingOrders } from "../../redux/orders/orderThunk";
-import OrdersTable from "../../components/orders/OrdersTable";
 import MenuNavbar from "../../components/layout/NavBar";
 import { menuItems } from "../../utils/menu-items";
+import { getAllCompletedOrders } from "../../redux/orders/orderThunk";
+import OrdersCompletedTable from "../../components/orders/OrdersCompletedTable";
 
-const Home = () => {
+const OrdersCompletedView = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchOrders = async () => {
-      await dispatch(getAllPendingOrders());
+      await dispatch(getAllCompletedOrders());
     };
 
     fetchOrders();
@@ -24,12 +24,12 @@ const Home = () => {
           <MenuNavbar menuItems={menuItems} />
         </Col>
         <Col sm={9}>
-          <h2>Pedidos pendientes</h2>
-          <OrdersTable />
+          <h2>Pedidos completados</h2>
+          <OrdersCompletedTable />
         </Col>
       </Row>
     </Container>
   );
 };
 
-export default Home;
+export default OrdersCompletedView;

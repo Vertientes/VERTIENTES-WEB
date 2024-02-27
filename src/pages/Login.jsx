@@ -1,11 +1,12 @@
-
 import FormLogin from "../components/login/FormLogin";
-import "./../../styles/loginStyles.css";
+import { Container } from "react-bootstrap";
+
 const Login = () => {
   return (
-    <div className="login-container">
+    <Container className="login-container d-flex justify-content-center align-items-center vh-100">
       <FormLogin />
-    </div>
+    </Container>
   );
 };
+
 export default Login;

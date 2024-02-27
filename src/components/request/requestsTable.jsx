@@ -1,31 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Table, Button } from "react-bootstrap";
-import { CiEdit } from "react-icons/ci";
 import { FaTruckArrowRight } from "react-icons/fa6";
 import { BiDetail } from "react-icons/bi";
-import { BsBoxArrowInDown, BsPencilSquare } from "react-icons/bs"; // Importar iconos de React Bootstrap
 import ModalDetailOrder from "./ModalDetailOrder";
-import { EditOrderModal } from "./EditOrderModal";
-import { DeliveryModal } from "./DeliveryModal";
+import { DeliveryModal } from "../orders/DeliveryModal";
 
-const OrdersTable = () => {
+const RequestsTable = () => {
   const [orderDetail, setOrderDetail] = useState({});
-  const orders = useSelector((state) => state.orders.pendingOrders);
+  const orders = useSelector((state) => state.orders.inProcessOrders);
   const [modalVisible, setModalVisible] = useState(false);
-  const [editOrderModalVisible, setEditOrderModalVisible] = useState(false);
   const [deliveryModalVisible, setDeliveryModalVisible] = useState(false);
   const [orderId, setOrderId] = useState("");
-  const [order, setOrder] = useState({});
 
   const handleDeliveryModal = (orderId) => {
     setOrderId(orderId);
     setDeliveryModalVisible(true);
-  };
-
-  const handleEditOrderModal = (order) => {
-    setOrder(order);
-    setEditOrderModalVisible(true);
   };
 
   const closeModal = () => {
@@ -40,7 +30,6 @@ const OrdersTable = () => {
 
   return (
     <div>
-      
       <Table bordered hover>
         <thead bg="">
           <tr>
@@ -71,13 +60,6 @@ const OrdersTable = () => {
                   />
                 </td>
                 <td className="d-flex justify-content-between">
-                  <div>
-                    <CiEdit
-                      className="action-icon"
-                      onClick={() => handleEditOrderModal(order)}
-                      size={25}
-                    />
-                  </div>
                   <div className="ml-3">
                     {/* Agregamos un margen izquierdo para espaciar */}
                     <FaTruckArrowRight
@@ -105,12 +87,6 @@ const OrdersTable = () => {
         />
       )}
 
-      <EditOrderModal
-        order={order}
-        visible={editOrderModalVisible}
-        closeModal={closeModal}
-      />
-
       <DeliveryModal
         orderId={orderId}
         visible={deliveryModalVisible}
@@ -120,4 +96,4 @@ const OrdersTable = () => {
   );
 };
 
-export default OrdersTable;
+export default RequestsTable;

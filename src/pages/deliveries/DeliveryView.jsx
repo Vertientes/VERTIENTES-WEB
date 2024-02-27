@@ -1,20 +1,20 @@
 import React, { useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { getAllPendingOrders } from "../../redux/orders/orderThunk";
-import OrdersTable from "../../components/orders/OrdersTable";
 import MenuNavbar from "../../components/layout/NavBar";
 import { menuItems } from "../../utils/menu-items";
+import { getAllDeliveries } from "../../redux/delivery/deliveryThunk";
+import DeliveryTable from "../../components/delivery/DeliveryTable";
 
-const Home = () => {
+const DeliveryView = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      await dispatch(getAllPendingOrders());
+    const fetchDeliveries = async () => {
+      await dispatch(getAllDeliveries());
     };
 
-    fetchOrders();
+    fetchDeliveries();
   }, [dispatch]);
 
   return (
@@ -24,12 +24,12 @@ const Home = () => {
           <MenuNavbar menuItems={menuItems} />
         </Col>
         <Col sm={9}>
-          <h2>Pedidos pendientes</h2>
-          <OrdersTable />
+          <h2>Lista de repartos</h2>
+          <DeliveryTable />
         </Col>
       </Row>
     </Container>
   );
 };
 
-export default Home;
+export default DeliveryView;

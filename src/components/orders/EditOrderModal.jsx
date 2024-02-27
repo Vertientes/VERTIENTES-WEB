@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import {
   getAllInProcessOrders,
@@ -7,7 +7,7 @@ import {
   updateOrderData,
 } from "../../redux/orders/orderThunk";
 
-export const EditOrderModal = ({ order, closeModal }) => {
+export const EditOrderModal = ({ order, visible, closeModal }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     order_date: "",
@@ -18,32 +18,13 @@ export const EditOrderModal = ({ order, closeModal }) => {
     observation: "",
   });
 
-  useEffect(() => {
-    if (order) {
-      setFormData({
-        order_date: order.order_date || "",
-        order_due_date: order.order_due_date || "",
-        amount_paid: order.amount_paid || "",
-        recharges_delivered: order.recharges_delivered || "",
-        recharges_in_favor: order.recharges_in_favor || "",
-        observation: order.observation || "",
-      });
-    }
-  }, [order]);
-
   const handleChangeInput = (event) => {
-    // Actualizar el estado local cuando cambian los datos de entrada
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
   };
-  const handleChangeInputDate = (event) => {
-    const parse = `${event.target.value}:00.000Z`;
-    setFormData({
-      [event.target.name]: parse,
-    });
-  };
+
   const updateOrder = async () => {
     try {
       await dispatch(
@@ -62,116 +43,81 @@ export const EditOrderModal = ({ order, closeModal }) => {
     } finally {
       await dispatch(getAllPendingOrders());
       await dispatch(getAllInProcessOrders());
+      closeModal();
     }
   };
 
   return (
-    <div className="modal" id="editOrderModal" tabIndex="-1">
-    <div className="modal-dialog">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h5 className="modal-title">Editar Orden</h5>
-          <button
-            type="button"
-            className="btn-close"
-            aria-label="Close"
-            onClick={closeModal}
-          ></button>
-        </div>
-          <div className="modal-body">
-            <form>
-              <div className="mb-3">
-                <label className="form-label">
-                  Modificar fecha de la orden
-                </label>
-                <input
-                  type="datetime-local"
-                  className="form-control"
-                  id="order_date"
-                  name="order_date"
-                  onChange={(e) => handleChangeInputDate(e)}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">
-                  Modificar fecha de vencimiento de la orden
-                </label>
-                <input
-                  type="datetime-local"
-                  className="form-control"
-                  id="order_due_date"
-                  name="order_due_date"
-                  onChange={(e) => handleChangeInputDate(e)}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Modificar cantidad pagada</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  id="amount_paid"
-                  name="amount_paid" // Asigna el nombre del campo correspondiente
-                  value={formData.amount_paid} // Asigna el valor del campo desde el estado local
-                  onChange={(e) => handleChangeInput(e)}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">
-                  Modificar recargas entregadas
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="recharges_delivered"
-                  name="recharges_delivered" // Asigna el nombre del campo correspondiente
-                  value={formData.recharges_delivered} // Asigna el valor del campo desde el estado local
-                  onChange={(e) => handleChangeInput(e)}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Modificar recargas a favor</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  id="recharges_in_favor"
-                  name="recharges_in_favor" // Asigna el nombre del campo correspondiente
-                  value={formData.recharges_in_favor} // Asigna el valor del campo desde el estado local
-                  onChange={(e) => handleChangeInput(e)}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Modificar observacion</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="observation"
-                  name="observation" // Asigna el nombre del campo correspondiente
-                  value={formData.observation} // Asigna el valor del campo desde el estado local
-                  onChange={(e) => handleChangeInput(e)}
-                />
-              </div>
-            </form>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cerrar
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => {
-                updateOrder();
-              }}
-            >
-              Actualizar orden
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Modal show={visible} onHide={closeModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>Editar Orden</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group controlId="formOrderDate">
+            <Form.Label>Modificar fecha de la orden</Form.Label>
+            <Form.Control
+              type="datetime-local"
+              name="order_date"
+              value={formData.order_date}
+              onChange={handleChangeInput}
+            />
+          </Form.Group>
+          <Form.Group controlId="formOrderDueDate">
+            <Form.Label>Modificar fecha de vencimiento de la orden</Form.Label>
+            <Form.Control
+              type="datetime-local"
+              name="order_due_date"
+              value={formData.order_due_date}
+              onChange={handleChangeInput}
+            />
+          </Form.Group>
+          <Form.Group controlId="formAmountPaid">
+            <Form.Label>Modificar cantidad pagada</Form.Label>
+            <Form.Control
+              type="number"
+              name="amount_paid"
+              value={formData.amount_paid}
+              onChange={handleChangeInput}
+            />
+          </Form.Group>
+          <Form.Group controlId="formRechargesDelivered">
+            <Form.Label>Modificar recargas entregadas</Form.Label>
+            <Form.Control
+              type="text"
+              name="recharges_delivered"
+              value={formData.recharges_delivered}
+              onChange={handleChangeInput}
+            />
+          </Form.Group>
+          <Form.Group controlId="formRechargesInFavor">
+            <Form.Label>Modificar recargas a favor</Form.Label>
+            <Form.Control
+              type="number"
+              name="recharges_in_favor"
+              value={formData.recharges_in_favor}
+              onChange={handleChangeInput}
+            />
+          </Form.Group>
+          <Form.Group controlId="formObservation">
+            <Form.Label>Modificar observación</Form.Label>
+            <Form.Control
+              type="text"
+              name="observation"
+              value={formData.observation}
+              onChange={handleChangeInput}
+            />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={closeModal}>
+          Cerrar
+        </Button>
+        <Button variant="primary" onClick={updateOrder}>
+          Actualizar Orden
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };

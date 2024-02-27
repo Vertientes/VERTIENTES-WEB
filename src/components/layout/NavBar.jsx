@@ -1,24 +1,22 @@
 import React from "react";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { FiSettings } from "react-icons/fi"; // Importa el icono de configuración
-import "./navbarStyles.css"; // Importa los estilos CSS
 
-const NavBar = () => {
+const MenuNavbar = ({ menuItems }) => {
   return (
-    <nav className="navbar">
-      <div className="navbar-brand">
-        <Link to="/">
-          <img className="iconoCompany" src="/assets/img/logoCompany.png" alt="Logo" />
-          <img className="nombreCompany" src="/assets/img/nombreCompany.png" alt="Logo" />
-        </Link>
-      </div>
-      {/* <div className="navbar-icons">
-        <Link to="/settings">
-          <FiSettings size={50} color="black"/>
-        </Link>
-      </div> */}
-    </nav>
+
+      <Navbar bg="dark" variant="dark" className="flex-column h-100">
+        <Navbar.Brand to="/home">Vertientes</Navbar.Brand>
+
+        <Nav className="flex-column flex-grow-1 w-100">
+          {menuItems.map((item) => (
+            <Nav.Link key={item.id} as={Link} to={item.link} className="text-light mt-4">
+              <span>{item.title}</span>
+            </Nav.Link>
+          ))}
+        </Nav>
+      </Navbar>
   );
 };
 
-export default NavBar;
+export default MenuNavbar;
