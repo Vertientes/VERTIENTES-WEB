@@ -3,13 +3,14 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import DeliveryView  from "./pages/deliveries/DeliveryView.jsx";
+import DeliveryView from "./pages/deliveries/DeliveryView.jsx";
 import OrdersCompletedView from "./pages/orders-completed/OrdersCompletedView.jsx";
 import RequestsRecharges from "./pages/requests/RequestsRechargesView.jsx";
 import { NotFoundView } from "./pages/NotFoundView.jsx";
 import Login from "./pages/Login.jsx";
 import Home from "./pages/home/Home.jsx";
 import ProductsView from "./pages/products/ProductsView.jsx";
+import PromotionsView from "./pages/promotions/PromotionsView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,11 @@ const router = createBrowserRouter([
   {
     path: "products",
     element: <ProductsView />,
+    errorElement: <NotFoundView />,
+  },
+  {
+    path: "promotions",
+    element: <PromotionsView />,
     errorElement: <NotFoundView />,
   },
   {

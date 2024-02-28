@@ -10,7 +10,7 @@ const MenuNavbar = ({ menuItems }) => {
 
         <Nav className="flex-column flex-grow-1 w-100">
           {menuItems.map((item) => (
-            <Nav.Link key={item.id} as={Link} to={item.link} className="text-light mt-4">
+            <Nav.Link key={item.id} as={Link} to={item.link} className="text-light mt-3">
               <span>{item.title}</span>
             </Nav.Link>
           ))}
