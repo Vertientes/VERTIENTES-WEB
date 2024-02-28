@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 export const getAuthentication = createAsyncThunk(
-  "auth/signin",
+  "auth/sign-in",
   async ({ dni, password }) => {
     const url_api = import.meta.env.VITE_BACKEND_API + "/sign_in";
 
@@ -24,21 +24,25 @@ export const getAuthentication = createAsyncThunk(
 
 // export const logOut = createAsyncThunk('auth/logout', async({}))
 
-export const signUp = createAsyncThunk("auth/signup", async ({ user_data }) => {
-  console.log(user_data);
-  const url_api = process.env.EXPO_PUBLIC_URL_API + "/signup";
-  console.log(url_api);
 
-  try {
-    const res_auth = await axios.post(url_api, user_data);
+export const signUpDelivery = createAsyncThunk(
+  "auth/sign-up-delivery",
+  async ({ delivery_data }) => {
+    console.log(delivery_data);
+    const url_api = process.env.EXPO_PUBLIC_URL_API + "/sign_up_delivery";
+    console.log(url_api);
 
-    if (res_auth.data.success === true) {
-      return res_auth.data;
+    try {
+      const res_auth = await axios.post(url_api, delivery_data);
+
+      if (res_auth.data.success === true) {
+        return res_auth.data;
+      }
+    } catch (error) {
+      throw new Error();
     }
-  } catch (error) {
-    throw new Error();
   }
-});
+);
 
 export const getMyProfile = createAsyncThunk(
   "auth/get-profile",

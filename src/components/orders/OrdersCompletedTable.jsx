@@ -8,7 +8,7 @@ import ModalDetailOrder from "./ModalDetailOrder";
 
 const OrdersCompletedTable = () => {
   const [orderDetail, setOrderDetail] = useState({});
-  const orders = useSelector((state) => state.orders.pendingOrders);
+  const orders = useSelector((state) => state.orders.completedOrders);
   const [modalVisible, setModalVisible] = useState(false);
   const [editOrderModalVisible, setEditOrderModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);

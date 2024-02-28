@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAuthentication, getMyProfile, signUp } from "./authThunks";
+import { getAuthentication, getMyProfile, signUpDelivery } from "./authThunks";
 
 const authSlice = createSlice({
   name: "auth",
@@ -11,7 +11,7 @@ const authSlice = createSlice({
     role: "idle",
     user_logged: {},
     my_profile: {},
-    errors:{}
+    errors: {}
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -26,7 +26,7 @@ const authSlice = createSlice({
     });
     builder.addCase(getAuthentication.rejected, (state, action) => {
       state.loading = "rejected";
-      state.errors = action.payload
+      state.errors = action.payload;
     });
     builder.addCase(getMyProfile.pending, (state) => {
       state.my_profile = {};
@@ -36,6 +36,17 @@ const authSlice = createSlice({
     });
     builder.addCase(getMyProfile.rejected, (state) => {
       state.my_profile = {};
+    });
+    builder.addCase(signUpDelivery.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(signUpDelivery.fulfilled, (state, action) => {
+      state.loading = "fulfilled";
+      state.success = true; // Indicate successful sign up
+    });
+    builder.addCase(signUpDelivery.rejected, (state, action) => {
+      state.loading = "rejected";
+      state.errors = action.payload;
     });
   },
 });

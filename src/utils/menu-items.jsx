@@ -9,49 +9,52 @@ import { RiLogoutBoxLine } from "react-icons/ri";
 export const menuItems = [
   {
     id: 1,
+    title: "Inicio",
+    link: "/home",
+  },
+  {
+    id: 2,
     title: "Solicitudes de recargas",
     link: "/requests",
   },
   {
-    id: 2,
+    id: 3,
     title: "Repartos de hoy",
-
     link: "/deliveries",
   },
   {
-    id: 3,
+    id: 4,
     title: "Pedidos finalizados",
-
     link: "/orders_completed",
   },
   {
-    id: 4,
+    id: 5,
     title: "Productos",
-
     link: "/products",
   },
   {
-    id: 5,
-    title: "Repartidores",
-
-    link: "/delivery-people",
-  },
-  {
     id: 6,
-    title: "Mi Empresa",
-
-    link: "/my-company",
+    title: "Promociones",
+    link: "/promotions",
   },
   {
     id: 7,
-    title: "Clientes",
-
-    link: "/clients",
+    title: "Repartidores",
+    link: "/delivery-people",
   },
   {
     id: 8,
+    title: "Mi Empresa",
+    link: "/my-company",
+  },
+  {
+    id: 9,
+    title: "Clientes",
+    link: "/customers",
+  },
+  {
+    id: 10,
     title: "Cerrar sesión",
-
     link: "/logout",
   },
 ];

@@ -9,6 +9,7 @@ import RequestsRecharges from "./pages/requests/RequestsRechargesView.jsx";
 import { NotFoundView } from "./pages/NotFoundView.jsx";
 import Login from "./pages/Login.jsx";
 import Home from "./pages/home/Home.jsx";
+import ProductsView from "./pages/products/ProductsView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
   {
     path: "deliveries",
     element: <DeliveryView />,
+    errorElement: <NotFoundView />,
+  },
+  {
+    path: "products",
+    element: <ProductsView />,
     errorElement: <NotFoundView />,
   },
   {

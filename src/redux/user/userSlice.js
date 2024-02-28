@@ -1,26 +1,76 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { updateUserData } from "./userThunk";
+import {
+  getUsersActive,
+  getAllUsers,
+  getUserProfile,
+  updateUserBySuperAdmin,
+  changeUserRoleWithPlan,
+  deactivateUser,
+  activateUser,
+  changeUserPassword,
+  getOneUser,
+  updateAddressUserData,
+} from "./userThunk";
 
 const initialState = {
   users: [],
-  loading: 'idle'
+  userProfile: null,
+  userById: null,
+  loading: false,
+  success: false,
+  error: null,
 };
 
-export const userSlice = createSlice({
-  name: "users",
+const userSlice = createSlice({
+  name: "user",
   initialState,
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(updateUserData.pending, (state) => {
-      state.loading = 'pending'
-    })
-    builder.addCase(updateUserData.fulfilled, (state) => {
-      state.loading = 'fullfiled'
-    })
-    builder.addCase(updateUserData.rejected, (state) => {
-      state.loading = 'rejected'
-    })
-  }
-});
+    // getUsersActive
+    builder.addCase(getUsersActive.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getUsersActive.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.users = action.payload.users;
+    });
+    builder.addCase(getUsersActive.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    });
 
+    // getAllUsers
+    builder.addCase(getAllUsers.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getAllUsers.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.users = action.payload.users;
+    });
+    builder.addCase(getAllUsers.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    });
+
+    // getUserProfile
+    builder.addCase(getUserProfile.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getUserProfile.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+      state.userProfile = action.payload.user;
+    });
+    builder.addCase(getUserProfile.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    });
+
+    // updateUserBySuperAdmin
+    // Add other cases for the remaining thunks in a similar manner...
+  },
+});
 
 export default userSlice.reducer;

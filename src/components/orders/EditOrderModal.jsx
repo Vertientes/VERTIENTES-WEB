@@ -9,7 +9,7 @@ import {
 
 export const EditOrderModal = ({ order, visible, closeModal }) => {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
+  const [orderUpdate, setorderUpdate] = useState({
     order_date: "",
     order_due_date: "",
     amount_paid: "",
@@ -19,8 +19,8 @@ export const EditOrderModal = ({ order, visible, closeModal }) => {
   });
 
   const handleChangeInput = (event) => {
-    setFormData({
-      ...formData,
+    setorderUpdate({
+      ...orderUpdate,
       [event.target.name]: event.target.value,
     });
   };
@@ -30,12 +30,12 @@ export const EditOrderModal = ({ order, visible, closeModal }) => {
       await dispatch(
         updateOrderData({
           id: order._id,
-          order_date: formData.order_date,
-          order_due_date: formData.order_due_date,
-          amount_paid: formData.amount_paid,
-          recharges_delivered: formData.recharges_delivered,
-          recharges_in_favor: formData.recharges_in_favor,
-          observation: formData.observation,
+          order_date: orderUpdate.order_date,
+          order_due_date: orderUpdate.order_due_date,
+          amount_paid: orderUpdate.amount_paid,
+          recharges_delivered: orderUpdate.recharges_delivered,
+          recharges_in_favor: orderUpdate.recharges_in_favor,
+          observation: orderUpdate.observation,
         })
       );
     } catch (error) {
@@ -59,7 +59,7 @@ export const EditOrderModal = ({ order, visible, closeModal }) => {
             <Form.Control
               type="datetime-local"
               name="order_date"
-              value={formData.order_date}
+              value={orderUpdate.order_date}
               onChange={handleChangeInput}
             />
           </Form.Group>
@@ -68,7 +68,7 @@ export const EditOrderModal = ({ order, visible, closeModal }) => {
             <Form.Control
               type="datetime-local"
               name="order_due_date"
-              value={formData.order_due_date}
+              value={orderUpdate.order_due_date}
               onChange={handleChangeInput}
             />
           </Form.Group>
@@ -77,7 +77,7 @@ export const EditOrderModal = ({ order, visible, closeModal }) => {
             <Form.Control
               type="number"
               name="amount_paid"
-              value={formData.amount_paid}
+              value={orderUpdate.amount_paid}
               onChange={handleChangeInput}
             />
           </Form.Group>
@@ -86,7 +86,7 @@ export const EditOrderModal = ({ order, visible, closeModal }) => {
             <Form.Control
               type="text"
               name="recharges_delivered"
-              value={formData.recharges_delivered}
+              value={orderUpdate.recharges_delivered}
               onChange={handleChangeInput}
             />
           </Form.Group>
@@ -95,7 +95,7 @@ export const EditOrderModal = ({ order, visible, closeModal }) => {
             <Form.Control
               type="number"
               name="recharges_in_favor"
-              value={formData.recharges_in_favor}
+              value={orderUpdate.recharges_in_favor}
               onChange={handleChangeInput}
             />
           </Form.Group>
@@ -104,7 +104,7 @@ export const EditOrderModal = ({ order, visible, closeModal }) => {
             <Form.Control
               type="text"
               name="observation"
-              value={formData.observation}
+              value={orderUpdate.observation}
               onChange={handleChangeInput}
             />
           </Form.Group>

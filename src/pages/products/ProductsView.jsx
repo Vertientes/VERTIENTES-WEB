@@ -3,19 +3,20 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import MenuNavbar from "../../components/layout/NavBar";
 import { menuItems } from "../../utils/menu-items";
-import { getAllInProcessOrders } from "../../redux/orders/orderThunk";
-import RequestsTable from "../../components/request/requestsTable";
+import { getProducts } from "../../redux/products/productThunk";
+import ProductsTable from "../../components/products/ProductsTable";
 
-const RequestsRechargesView = () => {
+const ProductsView = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      await dispatch(getAllInProcessOrders());
+    const fetchProducts = async () => {
+      await dispatch(getProducts());
     };
 
-    fetchOrders();
+    fetchProducts();
   }, [dispatch]);
+
   return (
     <Container fluid className="h-100">
       <Row className="h-100">
@@ -23,12 +24,12 @@ const RequestsRechargesView = () => {
           <MenuNavbar menuItems={menuItems} />
         </Col>
         <Col sm={9}>
-          <h2>Solicitudes de recargas</h2>
-          <RequestsTable />
+          <h2>Productos</h2>
+          <ProductsTable />
         </Col>
       </Row>
     </Container>
   );
 };
 
-export default RequestsRechargesView;
+export default ProductsView;

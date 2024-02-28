@@ -77,7 +77,7 @@ export const updateProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   "product/deleteProduct",
-  async (id, { getState, rejectWithValue }) => {
+  async ({id}, { getState, rejectWithValue }) => {
     const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/delete_product/${id}`;
 

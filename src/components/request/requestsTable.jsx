@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Table, Button } from "react-bootstrap";
 import { FaTruckArrowRight } from "react-icons/fa6";
 import { BiDetail } from "react-icons/bi";
-import ModalDetailOrder from "./ModalDetailOrder";
+import ModalDetailOrder from "../orders/ModalDetailOrder";
 import { DeliveryModal } from "../orders/DeliveryModal";
 
 const RequestsTable = () => {
