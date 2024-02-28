@@ -1,19 +1,32 @@
 import React, { useState } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal, Form, Button, Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import {
   deleteProduct,
+  getProducts,
   updateProduct,
 } from "../../redux/products/productThunk";
 
 const ModalDeleteProduct = ({ show, product, handleClose }) => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
+  const [alert, setAlert] = useState({ variant: "", message: "" });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(deleteProduct({ id: product._id }));
-    handleClose();
+    try {
+      await dispatch(deleteProduct({ id: product._id }));
+      setAlert({
+        variant: "success",
+        message: "¡Producto eliminado correctamente!",
+      });
+    } catch (error) {
+      setAlert({ variant: "danger", message: "Ha ocurrido un problema" });
+    } finally {
+      await dispatch(getProducts());
+      handleClose();
+      setAlert({ variant: "", message: "" });
+    }
   };
 
   return (
@@ -24,7 +37,7 @@ const ModalDeleteProduct = ({ show, product, handleClose }) => {
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="p-5">
-            <Form.Text >¿Desea eliminar el producto: {product.name}</Form.Text>
+            <Form.Text>¿Desea eliminar el producto: {product.name}</Form.Text>
           </Form.Group>
 
           <Button variant="secondary" type="submit" onClick={handleClose}>
@@ -34,6 +47,11 @@ const ModalDeleteProduct = ({ show, product, handleClose }) => {
             Confirmar
           </Button>
         </Form>
+        {alert.variant && (
+          <Alert variant={alert.variant} className="mt-3">
+            {alert.message}
+          </Alert>
+        )}
       </Modal.Body>
     </Modal>
   );

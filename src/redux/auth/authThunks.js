@@ -17,13 +17,12 @@ export const getAuthentication = createAsyncThunk(
         return res_auth.data;
       }
     } catch (error) {
-      return error.message; // Devolver un objeto serializable que represente el error
+      return error;
     }
   }
 );
 
 // export const logOut = createAsyncThunk('auth/logout', async({}))
-
 
 export const signUpDelivery = createAsyncThunk(
   "auth/sign-up-delivery",

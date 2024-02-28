@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal, Form, Button, Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { updateProduct } from "../../redux/products/productThunk";
+import { getProducts, updateProduct } from "../../redux/products/productThunk";
 
 const FormUpdateProduct = ({ show, product, handleClose }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    id: "",
-    name: "",
-    price: "",
-    type: "bidon", // Establecer un valor predeterminado para el tipo de producto
-    description: "",
+    id: product._id,
+    name: product.name,
+    price: product.price,
+    type: product.type,
+    description: product.description,
     file: null,
   });
   const [errors, setErrors] = useState({});
+  const [alert, setAlert] = useState({ variant: "", message: "" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,20 +31,32 @@ const FormUpdateProduct = ({ show, product, handleClose }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      dispatch(
-        updateProduct({
-          id: formData.id,
-          name: formData.name,
-          price: formData.price,
-          type: formData.type,
-          description: formData.description,
-          ["product-image"]: formData.file,
-        })
-      );
-      handleClose();
+      try {
+        await dispatch(
+          updateProduct({
+            id: formData.id,
+            name: formData.name,
+            price: formData.price,
+            type: formData.type,
+            description: formData.description,
+            file: formData.file || product.img, // Si no se selecciona ninguna imagen, se mantiene la imagen original del producto
+          })
+        );
+
+        setAlert({
+          variant: "success",
+          message: "¡Producto actualizado correctamente!",
+        });
+      } catch (error) {
+        setAlert({ variant: "danger", message: "Ha ocurrido un problema." });
+      } finally {
+        await dispatch(getProducts());
+        setAlert({ variant: "", message: "" });
+        handleClose();
+      }
     }
   };
 
@@ -55,7 +68,7 @@ const FormUpdateProduct = ({ show, product, handleClose }) => {
       errors.name = "El nombre es requerido";
       isValid = false;
     }
-    if (!formData.price.trim()) {
+    if (!String(formData.price).trim()) {
       errors.price = "El precio es requerido";
       isValid = false;
     }
@@ -145,9 +158,14 @@ const FormUpdateProduct = ({ show, product, handleClose }) => {
             />
           </Form.Group>
           <Button variant="primary" type="submit">
-            Crear Producto
+            Actualizar Producto
           </Button>
         </Form>
+        {alert.variant && (
+          <Alert variant={alert.variant} className="mt-3">
+            {alert.message}
+          </Alert>
+        )}
       </Modal.Body>
     </Modal>
   );

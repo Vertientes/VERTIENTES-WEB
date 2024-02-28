@@ -4,7 +4,10 @@ const url_base = import.meta.env.VITE_BACKEND_API;
 
 export const newProduct = createAsyncThunk(
   "product/newProduct",
-  async ({ name, price, type, description, file }, { getState, rejectWithValue }) => {
+  async (
+    { name, price, type, description, file },
+    { getState, rejectWithValue }
+  ) => {
     const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/new_product`;
     const formData = new FormData();
@@ -12,7 +15,7 @@ export const newProduct = createAsyncThunk(
     formData.append("price", price);
     formData.append("type", type);
     formData.append("description", description);
-    formData.append("file", file);
+    formData.append("product-image", file);
 
     try {
       const response = await axios.post(url_api, formData, {
@@ -49,7 +52,10 @@ export const getProducts = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   "product/updateProduct",
-  async ({ id, name, price, type, description, file }, { getState, rejectWithValue }) => {
+  async (
+    { id, name, price, type, description, file },
+    { getState, rejectWithValue }
+  ) => {
     const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/update_product/${id}`;
     const formData = new FormData();
@@ -77,7 +83,7 @@ export const updateProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   "product/deleteProduct",
-  async ({id}, { getState, rejectWithValue }) => {
+  async ({ id }, { getState, rejectWithValue }) => {
     const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/delete_product/${id}`;
 

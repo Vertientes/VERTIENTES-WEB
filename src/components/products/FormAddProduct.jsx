@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal, Form, Button, Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { newProduct } from "../../redux/products/productThunk";
+import { getProducts, newProduct } from "../../redux/products/productThunk";
 
 const FormAddProduct = ({ show, handleClose }) => {
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ const FormAddProduct = ({ show, handleClose }) => {
     file: null,
   });
   const [errors, setErrors] = useState({});
+  const [alert, setAlert] = useState({ variant: "", message: "" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,19 +30,31 @@ const FormAddProduct = ({ show, handleClose }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      dispatch(
-        newProduct({
-          name: formData.name,
-          price: formData.price,
-          type: formData.type,
-          description: formData.description,
-          ["product-image"]: formData.file,
-        })
-      );
-      handleClose();
+      try {
+        await dispatch(
+          newProduct({
+            name: formData.name,
+            price: formData.price,
+            type: formData.type,
+            description: formData.description,
+            file: formData.file,
+          })
+        );
+
+        setAlert({
+          variant: "success",
+          message: "¡Producto creado correctamente!",
+        });
+      } catch (error) {
+        setAlert({ variant: "danger", message: "Ha ocurrido un problema." });
+      } finally {
+        await dispatch(getProducts());
+        handleClose();
+        setAlert({ variant: "", message: "" });
+      }
     }
   };
 
@@ -63,6 +76,10 @@ const FormAddProduct = ({ show, handleClose }) => {
     }
     if (!formData.description.trim()) {
       errors.description = "La descripción es requerida";
+      isValid = false;
+    }
+    if (!formData.file) {
+      errors.file = "La imagen es requerida";
       isValid = false;
     }
     setErrors(errors);
@@ -140,12 +157,21 @@ const FormAddProduct = ({ show, handleClose }) => {
               type="file"
               accept="image/*"
               onChange={handleFileChange}
+              isInvalid={errors.file}
             />
+            <Form.Control.Feedback type="invalid">
+              {errors.file}
+            </Form.Control.Feedback>
           </Form.Group>
           <Button variant="primary" type="submit">
             Crear Producto
           </Button>
         </Form>
+        {alert.variant && (
+          <Alert variant={alert.variant} className="mt-3">
+            {alert.message}
+          </Alert>
+        )}
       </Modal.Body>
     </Modal>
   );
