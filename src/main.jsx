@@ -11,6 +11,8 @@ import Login from "./pages/Login.jsx";
 import Home from "./pages/home/Home.jsx";
 import ProductsView from "./pages/products/ProductsView.jsx";
 import PromotionsView from "./pages/promotions/PromotionsView.jsx";
+import DistributorsView from "./pages/distributors/DistributorsView.jsx";
+import UsersView from "./pages/users/UsersView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,8 +32,18 @@ const router = createBrowserRouter([
     errorElement: <NotFoundView />,
   },
   {
+    path: "distributors",
+    element: <DistributorsView />,
+    errorElement: <NotFoundView />,
+  },
+  {
     path: "products",
     element: <ProductsView />,
+    errorElement: <NotFoundView />,
+  },
+  {
+    path: "users",
+    element: <UsersView />,
     errorElement: <NotFoundView />,
   },
   {

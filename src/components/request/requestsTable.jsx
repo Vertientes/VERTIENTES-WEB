@@ -20,13 +20,9 @@ const RequestsTable = () => {
 
   const closeModal = () => {
     setModalVisible(false);
-    setEditOrderModalVisible(false);
     setDeliveryModalVisible(false);
   };
 
-  useEffect(() => {
-    console.log(orders);
-  }, [orders]);
 
   return (
     <div>

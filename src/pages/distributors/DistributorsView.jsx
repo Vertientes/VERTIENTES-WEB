@@ -1,25 +1,21 @@
 import React, { useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import MenuNavbar from "../../components/layout/NavBar";
 import { menuItems } from "../../utils/menu-items";
-import { getCompanyDetails } from "../../redux/company/companyThunk";
+import { getAllDistributors } from "../../redux/distributors/distributorThunk";
+import DistributorsList from "../../components/distributors/DistributorsList";
 
-const CompanyView = () => {
+const DistributorsView = () => {
   const dispatch = useDispatch();
-  const company = useSelector((state) => state.company.company);
 
   useEffect(() => {
-    const fetchCompany = async () => {
-      await dispatch(getCompanyDetails());
+    const fetchDeliveries = async () => {
+      await dispatch(getAllDistributors());
     };
 
-    fetchCompany();
+    fetchDeliveries();
   }, [dispatch]);
-
-  useEffect(() => {
-    console.log(company);
-  }, [company]);
 
   return (
     <Container fluid className="h-100">
@@ -27,10 +23,13 @@ const CompanyView = () => {
         <Col sm={3} className="bg-dark">
           <MenuNavbar menuItems={menuItems} />
         </Col>
-        <Col sm={9}>MI EMPRESA</Col>
+        <Col sm={9}>
+          <h2>Repartidores</h2>
+          <DistributorsList />
+        </Col>
       </Row>
     </Container>
   );
 };
 
-export default CompanyView;
+export default DistributorsView;

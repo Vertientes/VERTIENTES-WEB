@@ -40,7 +40,7 @@ export const menuItems = [
   {
     id: 7,
     title: "Repartidores",
-    link: "/delivery-people",
+    link: "/distributors",
   },
   {
     id: 8,
@@ -50,7 +50,7 @@ export const menuItems = [
   {
     id: 9,
     title: "Clientes",
-    link: "/customers",
+    link: "/users",
   },
   {
     id: 10,

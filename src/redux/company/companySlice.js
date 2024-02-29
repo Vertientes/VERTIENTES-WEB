@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createCompany, getCompanyDetails, updateCompanyDetails } from "./companyThunk";
+import {
+  createCompany,
+  getCompanyDetails,
+  updateCompanyDetails,
+} from "./companyThunk";
 
 const initialState = {
   company: {
@@ -13,7 +17,7 @@ const initialState = {
     business_name: "",
     business_name_cuil: "",
     email: "",
-    alias: ""
+    alias: "",
   },
   loading: "idle",
   error: null,
@@ -41,7 +45,7 @@ export const companySlice = createSlice({
       })
       .addCase(getCompanyDetails.fulfilled, (state, action) => {
         state.loading = "idle";
-        state.company = action.payload.company;
+        state.company = action.payload.companies[0];
       })
       .addCase(getCompanyDetails.rejected, (state, action) => {
         state.loading = "idle";

@@ -3,12 +3,35 @@ import axios from "axios";
 
 const url_base = import.meta.env.VITE_BACKEND_API;
 
+export const signUp = createAsyncThunk("user/signup", async ({ user_data }) => {
+  console.log(user_data);
+  const url_api = url_base + "/signup";
+
+  try {
+    const res_auth = await axios.post(url_api, user_data);
+
+    if (res_auth.data.success === true) {
+      return res_auth.data;
+    }
+  } catch (error) {
+    throw new Error();
+  }
+});
+
 // Thunk para obtener todos los usuarios activos
 export const getUsersActive = createAsyncThunk(
   "user/getUsersActive",
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/all_users_active`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
     try {
-      const res = await axios.get(url_base);
+      const res = await axios.get(url_api, headers);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -19,9 +42,17 @@ export const getUsersActive = createAsyncThunk(
 // Thunk para obtener todos los usuarios
 export const getAllUsers = createAsyncThunk(
   "user/getAllUsers",
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/all_users`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
     try {
-      const res = await axios.get(url_base);
+      const res = await axios.get(url_api, headers);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -63,9 +94,17 @@ export const updateUserBySuperAdmin = createAsyncThunk(
 // Thunk para cambiar el rol de un usuario a usuario con plan por el superadmin
 export const changeUserRoleWithPlan = createAsyncThunk(
   "user/changeUserRoleWithPlan",
-  async (id, { rejectWithValue }) => {
+  async ({ id, role }, { rejectWithValue, getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/change_user_with_plan/${id}`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
     try {
-      const res = await axios.put(`/api/users/${id}/role/with-plan`);
+      const res = await axios.put(url_api, { role: role }, headers);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -74,11 +113,19 @@ export const changeUserRoleWithPlan = createAsyncThunk(
 );
 
 // Thunk para desactivar un usuario
-export const deactivateUser = createAsyncThunk(
+export const desactivateUser = createAsyncThunk(
   "user/deactivateUser",
-  async (id, { rejectWithValue }) => {
+  async ({ id }, { rejectWithValue, getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/desactivate_user/${id}`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
     try {
-      const res = await axios.put(`/api/users/${id}/deactivate`);
+      const res = await axios.put(url_api, headers);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -89,9 +136,17 @@ export const deactivateUser = createAsyncThunk(
 // Thunk para activar un usuario
 export const activateUser = createAsyncThunk(
   "user/activateUser",
-  async (id, { rejectWithValue }) => {
+  async ({ id }, { rejectWithValue, getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/activate_user/${id}`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
     try {
-      const res = await axios.put(`/api/users/${id}/activate`);
+      const res = await axios.put(url_api);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -115,7 +170,7 @@ export const changeUserPassword = createAsyncThunk(
 // Thunk para obtener un usuario por su ID
 export const getOneUser = createAsyncThunk(
   "user/getOneUser",
-  async (id, { rejectWithValue }) => {
+  async ({ id }, { rejectWithValue }) => {
     try {
       const res = await axios.get(`/api/users/${id}`);
       return res.data;

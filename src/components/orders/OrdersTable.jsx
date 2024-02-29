@@ -34,9 +34,6 @@ const OrdersTable = () => {
     setDeliveryModalVisible(false);
   };
 
-  useEffect(() => {
-    console.log(orders);
-  }, [orders]);
 
   return (
     <div>

@@ -1,13 +1,24 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+
 const url_base = import.meta.env.VITE_BACKEND_API;
 
 // Thunk para crear una nueva empresa
 export const createCompany = createAsyncThunk(
   "company/createCompany",
-  async ({ companyData }, { rejectWithValue }) => {
+  async ({ companyData }, { rejectWithValue, getState }) => {
     try {
-      const response = await axios.post(`${url_base}/new_company`, companyData);
+      const { token } = getState().auth; // Obtener el token del estado
+      const response = await axios.post(
+        `${url_base}/new_company`,
+        companyData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -18,9 +29,15 @@ export const createCompany = createAsyncThunk(
 // Thunk para obtener los detalles de la empresa
 export const getCompanyDetails = createAsyncThunk(
   "company/getCompanyDetails",
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
-      const response = await axios.get(`${url_base}/all_companies`);
+      const { token } = getState().auth; // Obtener el token del estado
+      const response = await axios.get(`${url_base}/all_companies`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -31,11 +48,18 @@ export const getCompanyDetails = createAsyncThunk(
 // Thunk para actualizar los detalles de la empresa
 export const updateCompanyDetails = createAsyncThunk(
   "company/updateCompanyDetails",
-  async ({companyData}, { rejectWithValue }) => {
+  async ({ id, companyData }, { rejectWithValue, getState }) => {
     try {
+      const { token } = getState().auth; // Obtener el token del estado
       const response = await axios.put(
-        `${url_base}/update_company`,
-        companyData
+        `${url_base}/update_company/${id}`,
+        companyData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
       );
       return response.data;
     } catch (error) {

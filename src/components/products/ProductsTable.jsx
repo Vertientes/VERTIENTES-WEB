@@ -12,10 +12,6 @@ const ProductsTable = () => {
   const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
-
   const handleOpenModalAdd = () => {
     setModalAddVisible(true);
   };

@@ -5,7 +5,7 @@ import {
   getUserProfile,
   updateUserBySuperAdmin,
   changeUserRoleWithPlan,
-  deactivateUser,
+  desactivateUser,
   activateUser,
   changeUserPassword,
   getOneUser,
@@ -69,7 +69,17 @@ const userSlice = createSlice({
     });
 
     // updateUserBySuperAdmin
-    // Add other cases for the remaining thunks in a similar manner...
+    builder.addCase(changeUserRoleWithPlan.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(changeUserRoleWithPlan.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+    });
+    builder.addCase(changeUserRoleWithPlan.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    });
   },
 });
 
