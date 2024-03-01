@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { activateUser } from "../../redux/user/userThunk";
+import { activateUser, desactivateUser } from "../../redux/user/userThunk";
 
 const UpdateStatusModal = ({ show, id, status, closeModal }) => {
   const dispatch = useDispatch();
