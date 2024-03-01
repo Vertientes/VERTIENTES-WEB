@@ -5,7 +5,6 @@ import { store } from "./redux/store.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DeliveryView from "./pages/deliveries/DeliveryView.jsx";
 import OrdersCompletedView from "./pages/orders-completed/OrdersCompletedView.jsx";
-import RequestsRecharges from "./pages/requests/RequestsRechargesView.jsx";
 import { NotFoundView } from "./pages/NotFoundView.jsx";
 import Login from "./pages/Login.jsx";
 import Home from "./pages/home/Home.jsx";
@@ -13,6 +12,7 @@ import ProductsView from "./pages/products/ProductsView.jsx";
 import PromotionsView from "./pages/promotions/PromotionsView.jsx";
 import DistributorsView from "./pages/distributors/DistributorsView.jsx";
 import UsersView from "./pages/users/UsersView.jsx";
+import CompanyView from "./pages/company/CompanyView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +47,11 @@ const router = createBrowserRouter([
     errorElement: <NotFoundView />,
   },
   {
+    path: "company",
+    element: <CompanyView />,
+    errorElement: <NotFoundView />,
+  },
+  {
     path: "promotions",
     element: <PromotionsView />,
     errorElement: <NotFoundView />,
@@ -54,11 +59,6 @@ const router = createBrowserRouter([
   {
     path: "orders_completed",
     element: <OrdersCompletedView />,
-    errorElement: <NotFoundView />,
-  },
-  {
-    path: "requests",
-    element: <RequestsRecharges />,
     errorElement: <NotFoundView />,
   },
   {

@@ -45,7 +45,10 @@ export const companySlice = createSlice({
       })
       .addCase(getCompanyDetails.fulfilled, (state, action) => {
         state.loading = "idle";
-        state.company = action.payload.companies[0];
+        if (action.payload.companies && action.payload.companies.length > 0) {
+          // Verificar si hay al menos un company devuelto por el backend
+          state.company = action.payload.companies[0];
+        }
       })
       .addCase(getCompanyDetails.rejected, (state, action) => {
         state.loading = "idle";

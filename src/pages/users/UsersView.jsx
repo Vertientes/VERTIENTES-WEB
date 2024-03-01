@@ -2,28 +2,32 @@ import React, { useEffect } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MenuNavbar from "../../components/layout/NavBar";
-import { menuItems } from "../../utils/menu-items";
-import { getAllUsers } from "../../redux/user/userThunk";
+import { getAllUsers, getUsersActive } from "../../redux/user/userThunk";
 import UsersTable from "../../components/users/UsersTable";
+import UsersActiveTable from "../../components/users/UsersActiveTable";
 
 const UsersView = () => {
   const dispatch = useDispatch();
+  const role = useSelector((state) => state.auth.role);
 
   useEffect(() => {
-    const fetchCustomers = async () => {
+    const fetchUsersData = async () => {
       await dispatch(getAllUsers());
+      await dispatch(getUsersActive());
     };
 
-    fetchCustomers();
+    fetchUsersData();
   }, [dispatch]);
+
+  const isAdmin = role === "super_admin";
 
   return (
     <Container fluid className="h-100">
       <Row className="h-100">
         <Col sm={3} className="bg-dark">
-          <MenuNavbar menuItems={menuItems} />
+          <MenuNavbar />
         </Col>
         <Col sm={9}>
           <Tabs
@@ -33,13 +37,15 @@ const UsersView = () => {
             justify
           >
             <Tab eventKey="customers-active" title="Clientes activos">
-              Clientes activos
+              <UsersActiveTable />
             </Tab>
-            <Tab eventKey="all-users" title="Todos los usuarios">
-              <Container style={{ minHeight: "100vh" }}>
-                <UsersTable />
-              </Container>
-            </Tab>
+            {isAdmin && (
+              <Tab eventKey="all-users" title="Todos los usuarios">
+                <Container style={{ minHeight: "100vh" }}>
+                  <UsersTable />
+                </Container>
+              </Tab>
+            )}
           </Tabs>
         </Col>
       </Row>

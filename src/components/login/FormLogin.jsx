@@ -39,10 +39,16 @@ const FormLogin = () => {
         const data_auth = await dispatch(getAuthentication(credentials));
         if (data_auth.payload?.success == false) {
           setError("Compruebe sus credenciales");
-        } else {
-          if (data_auth.payload?.token && data_auth.payload?.user.is_active) {
-            navigation("/home");
-          }
+        }
+        if (
+          data_auth.payload?.user.role != "admin" ||
+          data_auth.payload?.user.role != "super_admin"
+        ) {
+          setError("No tiene autorización.");
+        }
+
+        if (data_auth.payload?.token && data_auth.payload?.user.is_active) {
+          navigation("/home");
         }
       } catch (error) {
         console.log(error.data);

@@ -14,6 +14,7 @@ import {
 
 const initialState = {
   users: [],
+  usersActive: [],
   userProfile: null,
   userById: null,
   loading: false,
@@ -33,7 +34,7 @@ const userSlice = createSlice({
     builder.addCase(getUsersActive.fulfilled, (state, action) => {
       state.loading = false;
       state.success = true;
-      state.users = action.payload.users;
+      state.usersActive = action.payload.users;
     });
     builder.addCase(getUsersActive.rejected, (state, action) => {
       state.loading = false;

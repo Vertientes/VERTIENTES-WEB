@@ -23,6 +23,7 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.token = action.payload?.token;
       state.user_logged = action.payload?.user;
+      state.role = action.payload?.user.role;
     });
     builder.addCase(getAuthentication.rejected, (state, action) => {
       state.loading = "rejected";

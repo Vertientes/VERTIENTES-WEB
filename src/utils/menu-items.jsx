@@ -6,16 +6,40 @@ import { AiOutlineShop } from "react-icons/ai";
 import { RiFileUserLine } from "react-icons/ri";
 import { RiLogoutBoxLine } from "react-icons/ri";
 
-export const menuItems = [
+export const menuItemsAdmin = [
   {
     id: 1,
     title: "Inicio",
     link: "/home",
   },
   {
-    id: 2,
-    title: "Solicitudes de recargas",
-    link: "/requests",
+    id: 3,
+    title: "Repartos de hoy",
+    link: "/deliveries",
+  },
+  {
+    id: 4,
+    title: "Pedidos finalizados",
+    link: "/orders_completed",
+  },
+  {
+    id: 9,
+    title: "Clientes",
+    link: "/users",
+  },
+  {
+    id: 10,
+    title: "Cerrar sesión",
+    link: "/logout",
+  },
+];
+
+
+export const menuItemsSuperAdmin = [
+  {
+    id: 1,
+    title: "Inicio",
+    link: "/home",
   },
   {
     id: 3,
@@ -45,7 +69,7 @@ export const menuItems = [
   {
     id: 8,
     title: "Mi Empresa",
-    link: "/my-company",
+    link: "/company",
   },
   {
     id: 9,

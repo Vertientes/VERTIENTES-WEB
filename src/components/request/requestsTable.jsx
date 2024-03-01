@@ -23,7 +23,6 @@ const RequestsTable = () => {
     setDeliveryModalVisible(false);
   };
 
-
   return (
     <div>
       <Table bordered hover>
@@ -31,7 +30,7 @@ const RequestsTable = () => {
           <tr>
             <th>Fecha de Orden</th>
             <th>Cliente</th>
-            <th>Observacion</th>
+            <th>Solicitud de recarga</th>
             <th>Detalles</th>
             <th>Acciones</th>
           </tr>
@@ -44,7 +43,7 @@ const RequestsTable = () => {
                 <td>
                   {order.user.first_name} {order.user.last_name}
                 </td>
-                <td>{order.observation}</td>
+                <td>{order.request_recharges[0]}</td>
                 <td align="center">
                   <BiDetail // Icono para mostrar detalles
                     onClick={() => {
