@@ -4,6 +4,7 @@ import { Table, Button } from "react-bootstrap";
 import { FaTruckArrowRight } from "react-icons/fa6";
 import { BiDetail } from "react-icons/bi";
 import ModalDetailOrder from "./ModalDetailOrder";
+import { MdDeleteForever } from "react-icons/md";
 
 
 const OrdersCompletedTable = () => {
@@ -65,7 +66,7 @@ const OrdersCompletedTable = () => {
                 <td className="d-flex justify-content-between">
                   <div className="ml-3">
                     {/* Agregamos un margen izquierdo para espaciar */}
-                    <FaTruckArrowRight
+                    <MdDeleteForever
                       className="action-icon"
                       onClick={() => handleDeleteOrder(order._id)}
                       size={30}

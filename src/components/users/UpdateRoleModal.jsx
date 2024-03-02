@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { changeUserRoleWithPlan } from "../../redux/user/userThunk";
+import {
+  changeUserRoleWithPlan,
+  getUsersActive,
+} from "../../redux/user/userThunk";
 
 const UpdateRoleModal = ({ show, id, role, closeModal }) => {
   const dispatch = useDispatch();
@@ -31,13 +34,15 @@ const UpdateRoleModal = ({ show, id, role, closeModal }) => {
           message: "Usuario editado con exito.",
           variant: "success",
         });
-        await dispatch(getAllDistributors());
+        await dispatch(getUsersActive());
       }
     } catch (error) {
       setAlert({
         message: "Ha ocurrido un error interno.",
         variant: "danger",
       });
+    } finally {
+      closeModal();
     }
   };
 

@@ -95,6 +95,7 @@ export const updateUserBySuperAdmin = createAsyncThunk(
 export const changeUserRoleWithPlan = createAsyncThunk(
   "user/changeUserRoleWithPlan",
   async ({ id, role }, { rejectWithValue, getState }) => {
+    console.log(role);
     const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/change_user_with_plan/${id}`;
     const headers = {
@@ -104,9 +105,10 @@ export const changeUserRoleWithPlan = createAsyncThunk(
       },
     };
     try {
-      const res = await axios.put(url_api, { role: role }, headers);
+      const res = await axios.put(url_api, role, headers);
       return res.data;
     } catch (error) {
+      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -157,9 +159,17 @@ export const activateUser = createAsyncThunk(
 // Thunk para cambiar la contraseña de un usuario
 export const changeUserPassword = createAsyncThunk(
   "user/changeUserPassword",
-  async ({ id, passwords }, { rejectWithValue }) => {
+  async ({ id, passwords }, { rejectWithValue, getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/activate_user/${id}`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
     try {
-      const res = await axios.put(`/api/users/${id}/password`, passwords);
+      const res = await axios.put(url_api, passwords, headers);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
