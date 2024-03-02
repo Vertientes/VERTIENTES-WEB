@@ -6,7 +6,7 @@ export const getAllPendingUserOrders = createAsyncThunk(
   "orders/all_pending_user_orders",
   async (_, { getState }) => {
     const { token } = getState().auth; // Obtener el token del estado
-    const url_api = `${url_base}/all_pending_user_orders`;
+    const url_api = `${url_base}/all_pending_orders`;
     const headers = {
       headers: {
         "Content-Type": "application/json",
@@ -17,7 +17,7 @@ export const getAllPendingUserOrders = createAsyncThunk(
     try {
       const res_orders = await axios.get(url_api, headers);
       if (res_orders.data.success) {
-        return res_orders.data.pending_user_orders;
+        return res_orders.data.pending_all_orders;
       }
     } catch (error) {
       throw error;
@@ -42,6 +42,30 @@ export const getAllInProcessUserOrders = createAsyncThunk(
       const res_orders = await axios.get(url_api, headers);
       if (res_orders.data.success) {
         return res_orders.data.process_user_orders;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+// Thunks para obtener órdenes en proceso del usuario
+export const getAllDebtOrders = createAsyncThunk(
+  "orders/all_debt_orders",
+  async (_, { getState }) => {
+    const { token } = getState().auth; // Obtener el token del estado
+    const url_api = `${url_base}/all_debt_orders`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
+
+    try {
+      const res_orders = await axios.get(url_api, headers);
+      if (res_orders.data.success) {
+        return res_orders.data.all_debt_orders;
       }
     } catch (error) {
       throw error;

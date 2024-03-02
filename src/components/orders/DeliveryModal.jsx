@@ -25,7 +25,7 @@ export const DeliveryModal = ({ orderId, visible, closeModal }) => {
             <Form.Control
               type="datetime-local"
               value={deliveryDate}
-              onChange={(e) => setDeliveryDate(e.target.value)}
+              onChange={(e) => setDeliveryDate(`${e.target.value}:00.000Z`)}
             />
           </Form.Group>
         </Form>

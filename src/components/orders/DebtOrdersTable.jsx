@@ -1,63 +1,62 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Table, Button } from "react-bootstrap";
+import { CiEdit } from "react-icons/ci";
 import { FaTruckArrowRight } from "react-icons/fa6";
 import { BiDetail } from "react-icons/bi";
-import ModalDetailOrder from "../orders/ModalDetailOrder";
-import { DeliveryModal } from "../orders/DeliveryModal";
+import { BsBoxArrowInDown, BsPencilSquare } from "react-icons/bs"; // Importar iconos de React Bootstrap
+import ModalDetailOrder from "./ModalDetailOrder";
+import { EditOrderModal } from "./EditOrderModal";
+import { DeliveryModal } from "./DeliveryModal";
 
-const RequestsTable = () => {
+const DebtOrdersTable = () => {
   const [orderDetail, setOrderDetail] = useState({});
-  const orders = useSelector((state) => state.orders.inProcessOrders);
+  const orders = useSelector((state) => state.orders.debtOrders);
   const [modalVisible, setModalVisible] = useState(false);
+  const [editOrderModalVisible, setEditOrderModalVisible] = useState(false);
   const [deliveryModalVisible, setDeliveryModalVisible] = useState(false);
   const [orderId, setOrderId] = useState("");
+  const [order, setOrder] = useState({});
 
   const handleDeliveryModal = (orderId) => {
     setOrderId(orderId);
     setDeliveryModalVisible(true);
   };
 
+  const handleEditOrderModal = (order) => {
+    setOrder(order);
+    setEditOrderModalVisible(true);
+  };
+
   const closeModal = () => {
     setModalVisible(false);
+    setEditOrderModalVisible(false);
     setDeliveryModalVisible(false);
   };
 
-  const filteredOrders = orders.filter(order => {
-    // Comprueba si hay alguna solicitud de recarga pendiente en la orden
-    return order.request_recharges.some(request => request.status === 'pendiente');
-  });
-
-  console.log(filteredOrders)
 
   return (
     <div>
+      
       <Table bordered hover>
         <thead bg="">
           <tr>
             <th>Fecha de Orden</th>
             <th>Cliente</th>
-            <th>Solicitud de recarga</th>
+            <th>Observacion</th>
             <th>Detalles</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {filteredOrders ? (
-            filteredOrders.map((order) => (
+          {orders ? (
+            orders.map((order) => (
               <tr key={order._id}>
                 <td>{order.order_date}</td>
                 <td>
                   {order.user.first_name} {order.user.last_name}
                 </td>
-                <td>
-                  {order.request_recharges.map((request) => (
-                    request.status === "pendiente" && (
-                      <p>{request.requested_recharges}</p>
-                    )
-                  ))}
-                </td>
-
+                <td>{order.observation}</td>
                 <td align="center">
                   <BiDetail // Icono para mostrar detalles
                     onClick={() => {
@@ -69,6 +68,13 @@ const RequestsTable = () => {
                   />
                 </td>
                 <td className="d-flex justify-content-between">
+                  <div>
+                    <CiEdit
+                      className="action-icon"
+                      onClick={() => handleEditOrderModal(order)}
+                      size={25}
+                    />
+                  </div>
                   <div className="ml-3">
                     {/* Agregamos un margen izquierdo para espaciar */}
                     <FaTruckArrowRight
@@ -96,6 +102,12 @@ const RequestsTable = () => {
         />
       )}
 
+      <EditOrderModal
+        order={order}
+        visible={editOrderModalVisible}
+        closeModal={closeModal}
+      />
+
       <DeliveryModal
         orderId={orderId}
         visible={deliveryModalVisible}
@@ -105,4 +117,4 @@ const RequestsTable = () => {
   );
 };
 
-export default RequestsTable;
+export default DebtOrdersTable;

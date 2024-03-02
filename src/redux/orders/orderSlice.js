@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllPendingUserOrders, getAllInProcessUserOrders, getAllCompletedUserOrders, getAllPendingOrders, getAllInProcessOrders, getAllCompletedOrders, updateOrderData, renewOrder } from "./orderThunk";
+import { getAllPendingUserOrders, getAllInProcessUserOrders, getAllCompletedUserOrders, getAllPendingOrders, getAllInProcessOrders, getAllCompletedOrders, updateOrderData, renewOrder, getAllDebtOrders } from "./orderThunk";
 
 const initialState = {
   pendingUserOrders: [],
@@ -8,6 +8,7 @@ const initialState = {
   pendingOrders: [],
   inProcessOrders: [],
   completedOrders: [],
+  debtOrders: [],
   loading: false,
   error: null,
 };
@@ -69,6 +70,19 @@ const orderSlice = createSlice({
       state.error = action.error.message;
     });
 
+    // Thunks para obtener todas las órdenes que deben plata
+    builder.addCase(getAllDebtOrders.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getAllDebtOrders.fulfilled, (state, action) => {
+      state.loading = false;
+      state.debtOrders = action.payload;
+    });
+    builder.addCase(getAllDebtOrders.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+
     // Thunks para obtener todas las órdenes en proceso
     builder.addCase(getAllInProcessOrders.pending, (state) => {
       state.loading = true;
@@ -102,7 +116,7 @@ const orderSlice = createSlice({
     builder.addCase(updateOrderData.fulfilled, (state, action) => {
       state.loading = false;
       // Actualizar la orden en el estado
-      state.pendingOrders = state.pendingOrders.map(order => 
+      state.pendingOrders = state.pendingOrders.map(order =>
         order._id === action.payload._id ? action.payload : order
       );
     });

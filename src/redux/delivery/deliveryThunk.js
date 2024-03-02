@@ -4,9 +4,9 @@ const url_base = import.meta.env.VITE_BACKEND_API;
 
 export const newDelivery = createAsyncThunk(
   "orders/send-new-order",
-  async ({ id, delivery_date }) => {
+  async ({ id, delivery_date }, { getState }) => {
     const url_api = url_base + `/new_delivery/${id}`;
-    const token = "";
+    const { token } = getState().auth;
     const headers = {
       headers: {
         "Content-Type": "application/json",
@@ -34,9 +34,9 @@ export const newDelivery = createAsyncThunk(
 
 export const getAllDeliveries = createAsyncThunk(
   "delivery/all_deliveries",
-  async () => {
+  async (_, { getState }) => {
     const url_api = url_base + "/all_deliveries";
-    const token = "";
+    const { token } = getState().auth;
     const headers = {
       headers: {
         "Content-Type": "application/json",

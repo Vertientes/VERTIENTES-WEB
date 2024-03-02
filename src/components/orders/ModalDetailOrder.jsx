@@ -25,7 +25,7 @@ const ModalDetailOrder = ({ order, visible, closeModal }) => {
                   <strong>Fecha de la Orden:</strong> {orderDetail.order_date}
                 </p>
                 <p>
-                  <strong>Fecha de Entrega:</strong> {orderDetail.order_due_date}
+                  <strong>Fecha de Vencimiento:</strong> {orderDetail.order_due_date}
                 </p>
                 <p>
                   <strong>Método de Pago:</strong> {orderDetail.payment_method}
@@ -33,11 +33,37 @@ const ModalDetailOrder = ({ order, visible, closeModal }) => {
                 <p>
                   <strong>Estado:</strong> {orderDetail.status}
                 </p>
+                <p>
+                  <strong>Recargas a favor:</strong> {orderDetail.recharges_in_favor}
+                </p>
+                <p>
+                  <strong>Recargas entregadas:</strong> {orderDetail.recharges_delivered}
+                </p>
+                <p>
+                  <strong>Monto descontado:</strong> {orderDetail.discounted_quantity}
+                </p>
+                {/* Renderizar propiedades específicas del usuario con plan si tiene el rol correspondiente */}
+                {orderDetail.user.role === 'user_with_plan' && (
+                  <>
+                    <p>
+                      <strong>Recargas a favor con plan:</strong> {orderDetail.recharges_in_favor_with_plan}
+                    </p>
+                    <p>
+                      <strong>Monto Pagado con plan:</strong> {orderDetail.amount_paid_with_plan}
+                    </p>
+                  </>
+                )}
               </Col>
               <Col>
                 <h3>Cliente</h3>
                 <p>
                   {orderDetail?.user.first_name} {orderDetail?.user.last_name}
+                </p>
+                <p>
+                  <strong>Saldo del usuario:</strong> {orderDetail?.user.balance}
+                </p>
+                <p>
+                  <strong>Bidones que posee el usuario:</strong> {orderDetail?.user.company_drum}
                 </p>
               </Col>
             </Row>

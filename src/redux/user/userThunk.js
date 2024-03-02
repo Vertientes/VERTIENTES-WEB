@@ -5,7 +5,7 @@ const url_base = import.meta.env.VITE_BACKEND_API;
 
 export const signUp = createAsyncThunk("user/signup", async ({ user_data }) => {
   console.log(user_data);
-  const url_api = url_base + "/signup";
+  const url_api = url_base + "/sign_up";
 
   try {
     const res_auth = await axios.post(url_api, user_data);

@@ -4,12 +4,14 @@ import Tabs from "react-bootstrap/Tabs";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import {
+  getAllDebtOrders,
   getAllInProcessOrders,
   getAllPendingOrders,
 } from "../../redux/orders/orderThunk";
 import OrdersTable from "../../components/orders/OrdersTable";
 import MenuNavbar from "../../components/layout/NavBar";
 import RequestsTable from "../../components/request/requestsTable";
+import DebtOrdersTable from "../../components/orders/DebtOrdersTable";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -22,9 +24,13 @@ const Home = () => {
     const fetchOrdersInProcess = async () => {
       await dispatch(getAllInProcessOrders());
     };
-
+    const fetchOrdersDebt = async () => {
+      await dispatch(getAllDebtOrders());
+    };
     fetchOrders();
     fetchOrdersInProcess();
+    fetchOrdersDebt();
+
   }, [dispatch]);
 
   return (
@@ -47,7 +53,7 @@ const Home = () => {
               <RequestsTable />
             </Tab>
             <Tab eventKey="orders-incompleted" title="Pedidos sin abonar">
-              <OrdersTable />
+              <DebtOrdersTable />
             </Tab>
           </Tabs>
         </Col>
