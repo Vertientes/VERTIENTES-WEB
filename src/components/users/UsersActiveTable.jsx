@@ -36,10 +36,6 @@ const UsersActiveTable = () => {
     setShowModalStatus(false);
   };
 
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
-
   // Calcular el índice del último y primer elemento de la página actual
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

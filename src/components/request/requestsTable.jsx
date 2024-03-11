@@ -23,12 +23,12 @@ const RequestsTable = () => {
     setDeliveryModalVisible(false);
   };
 
-  const filteredOrders = orders.filter(order => {
+  const filteredOrders = orders.filter((order) => {
     // Comprueba si hay alguna solicitud de recarga pendiente en la orden
-    return order.request_recharges.some(request => request.status === 'pendiente');
+    return order.request_recharges.some(
+      (request) => request.status === "pendiente"
+    );
   });
-
-  console.log(filteredOrders)
 
   return (
     <div>
@@ -51,11 +51,12 @@ const RequestsTable = () => {
                   {order.user.first_name} {order.user.last_name}
                 </td>
                 <td>
-                  {order.request_recharges.map((request) => (
-                    request.status === "pendiente" && (
-                      <p>{request.requested_recharges}</p>
-                    )
-                  ))}
+                  {order.request_recharges.map(
+                    (request) =>
+                      request.status === "pendiente" && (
+                        <p key={request._id}>{request.requested_recharges}</p>
+                      )
+                  )}
                 </td>
 
                 <td align="center">

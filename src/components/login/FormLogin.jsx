@@ -48,6 +48,8 @@ const FormLogin = () => {
         }
 
         if (data_auth.payload?.token && data_auth.payload?.user.is_active) {
+          const token = data_auth.payload.token;
+       
           navigation("/home");
         }
       } catch (error) {

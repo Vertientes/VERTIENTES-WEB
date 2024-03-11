@@ -1,14 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+
 const url_base = import.meta.env.VITE_BACKEND_API;
+const token = localStorage.getItem("token");
 
 export const createPromotion = createAsyncThunk(
   "promotion/createPromotion",
   async (
     { description, required_quantity, discounted_percentage, file },
-    { rejectWithValue, getState }
+    { rejectWithValue }
   ) => {
-    const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/new_promotion`;
     const formData = new FormData();
     formData.append("description", description);
@@ -35,9 +36,8 @@ export const updatePromotion = createAsyncThunk(
   "promotion/updatePromotion",
   async (
     { id, description, required_quantity, discounted_percentage, file },
-    { rejectWithValue, getState }
+    { rejectWithValue }
   ) => {
-    const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/update_promotion/${id}`;
     const formData = new FormData();
     formData.append("description", description);
@@ -63,8 +63,7 @@ export const updatePromotion = createAsyncThunk(
 
 export const deletePromotion = createAsyncThunk(
   "promotion/deletePromotion",
-  async ({ id }, { rejectWithValue, getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async ({ id }, { rejectWithValue }) => {
     const url_api = `${url_base}/delete_promotion/${id}`;
 
     try {
@@ -82,8 +81,7 @@ export const deletePromotion = createAsyncThunk(
 
 export const getPromotions = createAsyncThunk(
   "promotion/getPromotions",
-  async (_, { rejectWithValue, getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async (_, { rejectWithValue }) => {
     const url_api = `${url_base}/all_promotions`;
 
     try {

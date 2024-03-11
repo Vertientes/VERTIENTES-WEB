@@ -12,9 +12,6 @@ const PromotionsTable = () => {
   const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
   const [selectPromotion, setselectPromotion] = useState(null);
 
-  useEffect(() => {
-    console.log(promotions);
-  }, [promotions]);
 
   const handleOpenModalAdd = () => {
     setModalAddVisible(true);

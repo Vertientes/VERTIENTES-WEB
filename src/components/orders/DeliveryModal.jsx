@@ -1,16 +1,27 @@
 import { useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Alert } from "react-bootstrap"; // Importa Alert desde react-bootstrap
 import { useDispatch } from "react-redux";
 import { newDelivery } from "../../redux/delivery/deliveryThunk";
+import { getAllPendingOrders } from "../../redux/orders/orderThunk";
 
 export const DeliveryModal = ({ orderId, visible, closeModal }) => {
   const dispatch = useDispatch();
   const [deliveryDate, setDeliveryDate] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleAddToDelivery = async () => {
-    // Dispatch de la acción para agregar a reparto con la fecha seleccionada
-    await dispatch(newDelivery({ id: orderId, delivery_date: deliveryDate }));
-    closeModal(); // Cerrar el modal después de agregar a reparto
+    try {
+      // Dispatch de la acción para agregar a reparto con la fecha seleccionada
+      await dispatch(newDelivery({ id: orderId, delivery_date: deliveryDate }));
+
+      await dispatch(getAllPendingOrders());
+      setSuccessMessage("¡La entrega se agregó al reparto exitosamente!");
+    } catch (error) {
+      setErrorMessage(
+        "Hubo un error al agregar la entrega al reparto. Inténtalo de nuevo."
+      );
+    }
   };
 
   return (
@@ -19,6 +30,8 @@ export const DeliveryModal = ({ orderId, visible, closeModal }) => {
         <Modal.Title>Agregar a Reparto</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {successMessage && <Alert variant="success">{successMessage}</Alert>}
+        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         <Form>
           <Form.Group controlId="formDeliveryDate">
             <Form.Label>Fecha de Reparto</Form.Label>

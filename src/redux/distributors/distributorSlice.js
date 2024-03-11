@@ -25,7 +25,9 @@ export const deliverySlice = createSlice({
       })
       .addCase(getAllDistributors.fulfilled, (state, action) => {
         state.loading = "fulfilled";
-        state.distributors = action.payload.deliveries;
+        if (action.payload.success) {
+          state.distributors = action.payload.deliveries;
+        }
       })
       .addCase(getAllDistributors.rejected, (state) => {
         state.loading = "rejected";

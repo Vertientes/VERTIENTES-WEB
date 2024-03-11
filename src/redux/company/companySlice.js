@@ -18,6 +18,8 @@ const initialState = {
     business_name_cuil: "",
     email: "",
     alias: "",
+    cvu: "",
+    company_drum_quantity: 0,
   },
   loading: "idle",
   error: null,
@@ -33,11 +35,10 @@ export const companySlice = createSlice({
         state.loading = "pending";
       })
       .addCase(createCompany.fulfilled, (state, action) => {
-        state.loading = "idle";
-        state.company = action.payload.savedCompany;
+        state.loading = "fulfilled";
       })
       .addCase(createCompany.rejected, (state, action) => {
-        state.loading = "idle";
+        state.loading = "rejected";
         state.error = action.payload;
       })
       .addCase(getCompanyDetails.pending, (state) => {
@@ -58,11 +59,10 @@ export const companySlice = createSlice({
         state.loading = "pending";
       })
       .addCase(updateCompanyDetails.fulfilled, (state, action) => {
-        state.loading = "idle";
-        state.company = action.payload.updatedCompany;
+        state.loading = "fulfilled";
       })
       .addCase(updateCompanyDetails.rejected, (state, action) => {
-        state.loading = "idle";
+        state.loading = "rejected";
         state.error = action.payload;
       });
   },

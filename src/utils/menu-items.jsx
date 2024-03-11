@@ -30,7 +30,7 @@ export const menuItemsAdmin = [
   {
     id: 10,
     title: "Cerrar sesión",
-    link: "/logout",
+    link: "/",
   },
 ];
 
@@ -79,6 +79,6 @@ export const menuItemsSuperAdmin = [
   {
     id: 10,
     title: "Cerrar sesión",
-    link: "/logout",
+    link: "/",
   },
 ];

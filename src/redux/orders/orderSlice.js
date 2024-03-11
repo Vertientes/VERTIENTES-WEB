@@ -1,5 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllPendingUserOrders, getAllInProcessUserOrders, getAllCompletedUserOrders, getAllPendingOrders, getAllInProcessOrders, getAllCompletedOrders, updateOrderData, renewOrder, getAllDebtOrders } from "./orderThunk";
+import {
+  getAllPendingUserOrders,
+  getAllInProcessUserOrders,
+  getAllCompletedUserOrders,
+  getAllPendingOrders,
+  getAllInProcessOrders,
+  getAllCompletedOrders,
+  updateOrderData,
+  renewOrder,
+  getAllDebtOrders,
+} from "./orderThunk";
 
 const initialState = {
   pendingUserOrders: [],
@@ -24,7 +34,9 @@ const orderSlice = createSlice({
     });
     builder.addCase(getAllPendingUserOrders.fulfilled, (state, action) => {
       state.loading = false;
-      state.pendingUserOrders = action.payload;
+      if (action.payload) {
+        state.pendingUserOrders = action.payload;
+      }
     });
     builder.addCase(getAllPendingUserOrders.rejected, (state, action) => {
       state.loading = false;
@@ -37,7 +49,9 @@ const orderSlice = createSlice({
     });
     builder.addCase(getAllInProcessUserOrders.fulfilled, (state, action) => {
       state.loading = false;
-      state.inProcessUserOrders = action.payload;
+      if (action.payload) {
+        state.inProcessUserOrders = action.payload;
+      }
     });
     builder.addCase(getAllInProcessUserOrders.rejected, (state, action) => {
       state.loading = false;
@@ -50,7 +64,9 @@ const orderSlice = createSlice({
     });
     builder.addCase(getAllCompletedUserOrders.fulfilled, (state, action) => {
       state.loading = false;
-      state.completedUserOrders = action.payload;
+      if (action.payload) {
+        state.completedUserOrders = action.payload;
+      }
     });
     builder.addCase(getAllCompletedUserOrders.rejected, (state, action) => {
       state.loading = false;
@@ -63,7 +79,9 @@ const orderSlice = createSlice({
     });
     builder.addCase(getAllPendingOrders.fulfilled, (state, action) => {
       state.loading = false;
+      if (action.payload) {
       state.pendingOrders = action.payload;
+      }
     });
     builder.addCase(getAllPendingOrders.rejected, (state, action) => {
       state.loading = false;
@@ -76,7 +94,9 @@ const orderSlice = createSlice({
     });
     builder.addCase(getAllDebtOrders.fulfilled, (state, action) => {
       state.loading = false;
+      if (action.payload) {
       state.debtOrders = action.payload;
+      }
     });
     builder.addCase(getAllDebtOrders.rejected, (state, action) => {
       state.loading = false;
@@ -89,7 +109,9 @@ const orderSlice = createSlice({
     });
     builder.addCase(getAllInProcessOrders.fulfilled, (state, action) => {
       state.loading = false;
+      if (action.payload) {
       state.inProcessOrders = action.payload;
+      }
     });
     builder.addCase(getAllInProcessOrders.rejected, (state, action) => {
       state.loading = false;
@@ -102,7 +124,9 @@ const orderSlice = createSlice({
     });
     builder.addCase(getAllCompletedOrders.fulfilled, (state, action) => {
       state.loading = false;
+      if (action.payload) {
       state.completedOrders = action.payload;
+      }
     });
     builder.addCase(getAllCompletedOrders.rejected, (state, action) => {
       state.loading = false;
@@ -116,7 +140,7 @@ const orderSlice = createSlice({
     builder.addCase(updateOrderData.fulfilled, (state, action) => {
       state.loading = false;
       // Actualizar la orden en el estado
-      state.pendingOrders = state.pendingOrders.map(order =>
+      state.pendingOrders = state.pendingOrders.map((order) =>
         order._id === action.payload._id ? action.payload : order
       );
     });

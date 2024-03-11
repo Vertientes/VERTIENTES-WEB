@@ -27,10 +27,6 @@ const OrdersCompletedTable = () => {
     setDeleteModalVisible(false);
   };
 
-  useEffect(() => {
-    console.log(orders);
-  }, [orders]);
-
   return (
     <div>
       

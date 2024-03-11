@@ -14,8 +14,10 @@ const UsersView = () => {
 
   useEffect(() => {
     const fetchUsersData = async () => {
-      await dispatch(getAllUsers());
       await dispatch(getUsersActive());
+      if (role === "super_admin") {
+        await dispatch(getAllUsers());
+      }
     };
 
     fetchUsersData();

@@ -8,6 +8,7 @@ import promotionReducer from "./promotions/promotionSlice";
 import companyReducer from "./company/companySlice";
 import distributorReducer from "./distributors/distributorSlice";
 
+
 export const store = configureStore({
   reducer: {
     auth: authReducer,

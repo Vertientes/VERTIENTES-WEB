@@ -34,11 +34,13 @@ const userSlice = createSlice({
     builder.addCase(getUsersActive.fulfilled, (state, action) => {
       state.loading = false;
       state.success = true;
-      state.usersActive = action.payload.users;
+      if (action.payload.success) {
+        state.usersActive = action.payload.users;
+      }
     });
     builder.addCase(getUsersActive.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload.message;
+      state.error = action.payload;
     });
 
     // getAllUsers
@@ -48,11 +50,13 @@ const userSlice = createSlice({
     builder.addCase(getAllUsers.fulfilled, (state, action) => {
       state.loading = false;
       state.success = true;
-      state.users = action.payload.users;
+      if (action.payload.success) {
+        state.users = action.payload.users;
+      }
     });
     builder.addCase(getAllUsers.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload.message;
+      state.error = action.payload;
     });
 
     // getUserProfile
@@ -62,7 +66,9 @@ const userSlice = createSlice({
     builder.addCase(getUserProfile.fulfilled, (state, action) => {
       state.loading = false;
       state.success = true;
-      state.userProfile = action.payload.user;
+      if (action.payload.success) {
+        state.userProfile = action.payload.user;
+      }
     });
     builder.addCase(getUserProfile.rejected, (state, action) => {
       state.loading = false;

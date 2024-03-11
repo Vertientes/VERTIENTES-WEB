@@ -1,14 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+
 const url_base = import.meta.env.VITE_BACKEND_API;
+const token = localStorage.getItem("token");
 
 export const newProduct = createAsyncThunk(
   "product/newProduct",
-  async (
-    { name, price, type, description, file },
-    { getState, rejectWithValue }
-  ) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async ({ name, price, type, description, file }, { rejectWithValue }) => {
     const url_api = `${url_base}/new_product`;
     const formData = new FormData();
     formData.append("name", name);
@@ -33,8 +31,7 @@ export const newProduct = createAsyncThunk(
 
 export const getProducts = createAsyncThunk(
   "product/getProducts",
-  async (_, { getState, rejectWithValue }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async (_, { rejectWithValue }) => {
     const url_api = `${url_base}/all_products`;
 
     try {
@@ -52,11 +49,7 @@ export const getProducts = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   "product/updateProduct",
-  async (
-    { id, name, price, type, description, file },
-    { getState, rejectWithValue }
-  ) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async ({ id, name, price, type, description, file }, { rejectWithValue }) => {
     const url_api = `${url_base}/update_product/${id}`;
     const formData = new FormData();
     formData.append("name", name);
@@ -83,8 +76,7 @@ export const updateProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   "product/deleteProduct",
-  async ({ id }, { getState, rejectWithValue }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async ({ id }, { rejectWithValue }) => {
     const url_api = `${url_base}/delete_product/${id}`;
 
     try {

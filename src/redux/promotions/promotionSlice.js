@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPromotion, updatePromotion, deletePromotion, getPromotions } from "./promotionThunk";
+import {
+  createPromotion,
+  updatePromotion,
+  deletePromotion,
+  getPromotions,
+} from "./promotionThunk";
 
 const initialState = {
   promotions: [],
@@ -43,7 +48,9 @@ export const promotionSlice = createSlice({
       })
       .addCase(getPromotions.fulfilled, (state, action) => {
         state.loading = "fulfilled";
-        state.promotions = action.payload.promotions;
+        if (action.payload.success) {
+          state.promotions = action.payload.promotions;
+        }
       })
       .addCase(getPromotions.rejected, (state) => {
         state.loading = "rejected";

@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import { menuItemsAdmin, menuItemsSuperAdmin } from "../../utils/menu-items";
+import { logout } from "../../redux/auth/authSlice";
 
 const MenuNavbar = () => {
   const [menuItems, setMenuItems] = useState();
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
   const role = useSelector((state) => state.auth.role);
 
   useEffect(() => {
@@ -25,8 +30,15 @@ const MenuNavbar = () => {
             <Nav.Link
               key={item.id}
               as={Link}
-              to={item.link}
               className="text-light mt-3"
+              onClick={() => {
+                if (item.title === "Cerrar sesión") {
+                  dispatch(logout());
+                  navigation(item.link);
+                } else {
+                  navigation(item.link);
+                }
+              }}
             >
               <span>{item.title}</span>
             </Nav.Link>

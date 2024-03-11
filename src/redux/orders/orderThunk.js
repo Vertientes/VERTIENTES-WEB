@@ -1,11 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+
 const url_base = import.meta.env.VITE_BACKEND_API;
+const token = localStorage.getItem("token");
 
 export const getAllPendingUserOrders = createAsyncThunk(
   "orders/all_pending_user_orders",
-  async (_, { getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async (_) => {
     const url_api = `${url_base}/all_pending_orders`;
     const headers = {
       headers: {
@@ -28,8 +29,7 @@ export const getAllPendingUserOrders = createAsyncThunk(
 // Thunks para obtener órdenes en proceso del usuario
 export const getAllInProcessUserOrders = createAsyncThunk(
   "orders/all_in_process_user_orders",
-  async (_, { getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async (_) => {
     const url_api = `${url_base}/all_in_process_user_orders`;
     const headers = {
       headers: {
@@ -52,8 +52,7 @@ export const getAllInProcessUserOrders = createAsyncThunk(
 // Thunks para obtener órdenes en proceso del usuario
 export const getAllDebtOrders = createAsyncThunk(
   "orders/all_debt_orders",
-  async (_, { getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async (_) => {
     const url_api = `${url_base}/all_debt_orders`;
     const headers = {
       headers: {
@@ -76,8 +75,7 @@ export const getAllDebtOrders = createAsyncThunk(
 // Thunks para obtener órdenes completadas del usuario
 export const getAllCompletedUserOrders = createAsyncThunk(
   "orders/all_completed_user_orders",
-  async (_, { getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async (_) => {
     const url_api = `${url_base}/all_completed_user_orders`;
     const headers = {
       headers: {
@@ -100,8 +98,7 @@ export const getAllCompletedUserOrders = createAsyncThunk(
 // Thunks para obtener todas las órdenes pendientes (solo para administradores)
 export const getAllPendingOrders = createAsyncThunk(
   "orders/all_pending_orders",
-  async (_, { getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async (_) => {
     const url_api = `${url_base}/all_pending_orders`;
     const headers = {
       headers: {
@@ -124,8 +121,7 @@ export const getAllPendingOrders = createAsyncThunk(
 // Thunks para obtener todas las órdenes en proceso (solo para administradores)
 export const getAllInProcessOrders = createAsyncThunk(
   "orders/all_in_process_orders",
-  async (_, { getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async (_) => {
     const url_api = `${url_base}/all_in_process_orders`;
     const headers = {
       headers: {
@@ -148,8 +144,7 @@ export const getAllInProcessOrders = createAsyncThunk(
 // Thunks para obtener todas las órdenes completadas (solo para administradores)
 export const getAllCompletedOrders = createAsyncThunk(
   "orders/all_completed_orders",
-  async (_, { getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async (_) => {
     const url_api = `${url_base}/all_completed_orders`;
     const headers = {
       headers: {
@@ -169,12 +164,10 @@ export const getAllCompletedOrders = createAsyncThunk(
   }
 );
 
-
 // Thunk para renovar una orden
 export const renewOrder = createAsyncThunk(
   "orders/renew_order",
-  async ({ id, orderData }, { getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
+  async ({ id, orderData }) => {
     const url_api = `${url_base}/renew_order/${id}`;
     const headers = {
       headers: {

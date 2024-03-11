@@ -7,16 +7,11 @@ const DeliveryTable = () => {
   const [pendingDeliveries, setPendingDeliveries] = useState([]);
 
   useEffect(() => {
-    console.log(deliveries)
     const pendingDeliveries = deliveries.filter(
       (delivery) => delivery.status === "pendiente"
     );
     setPendingDeliveries(pendingDeliveries);
   }, [deliveries]);
-
-  useEffect(() => {
-    console.log(pendingDeliveries);
-  }, [pendingDeliveries]);
 
   return (
     <div>

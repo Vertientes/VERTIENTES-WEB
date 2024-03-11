@@ -2,13 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const url_base = import.meta.env.VITE_BACKEND_API;
-
+const token = localStorage.getItem("token");
 // Thunk para crear una nueva empresa
 export const createCompany = createAsyncThunk(
   "company/createCompany",
-  async ({ companyData }, { rejectWithValue, getState }) => {
+  async ({ companyData }, { rejectWithValue }) => {
     try {
-      const { token } = getState().auth; // Obtener el token del estado
       const response = await axios.post(
         `${url_base}/new_company`,
         companyData,
@@ -29,9 +28,8 @@ export const createCompany = createAsyncThunk(
 // Thunk para obtener los detalles de la empresa
 export const getCompanyDetails = createAsyncThunk(
   "company/getCompanyDetails",
-  async (_, { rejectWithValue, getState }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const { token } = getState().auth; // Obtener el token del estado
       const response = await axios.get(`${url_base}/all_companies`, {
         headers: {
           "Content-Type": "application/json",
@@ -48,9 +46,8 @@ export const getCompanyDetails = createAsyncThunk(
 // Thunk para actualizar los detalles de la empresa
 export const updateCompanyDetails = createAsyncThunk(
   "company/updateCompanyDetails",
-  async ({ id, companyData }, { rejectWithValue, getState }) => {
+  async ({ id, companyData }, { rejectWithValue }) => {
     try {
-      const { token } = getState().auth; // Obtener el token del estado
       const response = await axios.put(
         `${url_base}/update_company/${id}`,
         companyData,
