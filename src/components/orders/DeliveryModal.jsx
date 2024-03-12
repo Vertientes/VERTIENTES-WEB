@@ -13,14 +13,22 @@ export const DeliveryModal = ({ orderId, visible, closeModal }) => {
   const handleAddToDelivery = async () => {
     try {
       // Dispatch de la acción para agregar a reparto con la fecha seleccionada
-      await dispatch(newDelivery({ id: orderId, delivery_date: deliveryDate }));
+      const res = await dispatch(
+        newDelivery({ id: orderId, delivery_date: deliveryDate })
+      );
 
-      await dispatch(getAllPendingOrders());
-      setSuccessMessage("¡La entrega se agregó al reparto exitosamente!");
+      if (res.payload.success) {
+        setSuccessMessage("¡La entrega se agregó al reparto exitosamente!");
+        await dispatch(getAllPendingOrders());
+      }
     } catch (error) {
       setErrorMessage(
         "Hubo un error al agregar la entrega al reparto. Inténtalo de nuevo."
       );
+    } finally {
+      closeModal();
+      setSuccessMessage("");
+      setErrorMessage("");
     }
   };
 

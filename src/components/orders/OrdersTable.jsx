@@ -8,6 +8,7 @@ import { BsBoxArrowInDown, BsPencilSquare } from "react-icons/bs"; // Importar i
 import ModalDetailOrder from "./ModalDetailOrder";
 import { EditOrderModal } from "./EditOrderModal";
 import { DeliveryModal } from "./DeliveryModal";
+import EmptyListMessage from "../layout/EmptyListMessage";
 
 const OrdersTable = () => {
   const [orderDetail, setOrderDetail] = useState({});
@@ -34,10 +35,8 @@ const OrdersTable = () => {
     setDeliveryModalVisible(false);
   };
 
-
   return (
     <div>
-      
       <Table bordered hover>
         <thead bg="">
           <tr>
@@ -49,7 +48,13 @@ const OrdersTable = () => {
           </tr>
         </thead>
         <tbody>
-          {orders ? (
+          {orders.length === 0 ? (
+            <tr>
+              <td colSpan="5">
+                <EmptyListMessage />
+              </td>
+            </tr>
+          ) : (
             orders.map((order) => (
               <tr key={order._id}>
                 <td>{order.order_date}</td>
@@ -86,10 +91,6 @@ const OrdersTable = () => {
                 </td>
               </tr>
             ))
-          ) : (
-            <tr>
-              <td colSpan="5">Aun no se han registrado pedidos pendientes</td>
-            </tr>
           )}
         </tbody>
       </Table>

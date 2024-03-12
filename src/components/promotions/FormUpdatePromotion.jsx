@@ -37,7 +37,7 @@ const FormUpdatePromotion = ({ show, promotion, handleClose }) => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        await dispatch(
+        const res = await dispatch(
           updatePromotion({
             id: formData.id,
             description: formData.description,
@@ -46,11 +46,12 @@ const FormUpdatePromotion = ({ show, promotion, handleClose }) => {
             file: formData.file || promotion.img, // Mantener la imagen original de la promoción si no se selecciona ninguna nueva
           })
         );
-
-        setAlert({
-          variant: "success",
-          message: "¡Promoción actualizada correctamente!",
-        });
+        if (res.payload.success) {
+          setAlert({
+            variant: "success",
+            message: "¡Promoción actualizada correctamente!",
+          });
+        }
       } catch (error) {
         setAlert({ variant: "danger", message: "Ha ocurrido un problema." });
       } finally {

@@ -29,7 +29,7 @@ export const EditOrderModal = ({ order, visible, closeModal }) => {
 
   const updateOrder = async () => {
     try {
-      await dispatch(
+      const res = await dispatch(
         updateOrderData({
           id: order._id,
           order_date: orderUpdate.order_date,
@@ -40,7 +40,9 @@ export const EditOrderModal = ({ order, visible, closeModal }) => {
           observation: orderUpdate.observation,
         })
       );
-      setSuccessMessage("¡La orden se actualizó correctamente!");
+      if (res.payload.success) {
+        setSuccessMessage("¡La orden se actualizó correctamente!");
+      }
     } catch (error) {
       setErrorMessage("Ha ocurrido un problema al actualizar la orden.");
     } finally {

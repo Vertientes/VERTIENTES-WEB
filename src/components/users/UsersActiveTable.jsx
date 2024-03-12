@@ -5,6 +5,7 @@ import { MdModeEdit, MdDelete } from "react-icons/md";
 import AddUserModal from "./AddUserModal";
 import UpdateRoleModal from "./UpdateRoleModal";
 import UpdateStatusModal from "./UpdateStatusModal";
+import EmptyListMessage from "../layout/EmptyListMessage";
 
 const UsersActiveTable = () => {
   const users = useSelector((state) => state.user.usersActive);
@@ -74,39 +75,47 @@ const UsersActiveTable = () => {
           </tr>
         </thead>
         <tbody>
-          {currentUsers.map((user) => (
-            <tr key={user.dni}>
-              <td>{`${user.first_name} ${user.last_name}`}</td>
-              <td>{user.dni}</td>
-              <td>{user.mobile_phone}</td>
-              <td>
-                {user.role}
-                <MdModeEdit
-                  onClick={() => {
-                    setSelectedUser(user);
-                    setShowModalRole(true);
-                  }}
-                />
-              </td>
-              <td>
-                {user.is_active ? "Activo" : "Inactivo"}
-                <MdModeEdit
-                  onClick={() => {
-                    setSelectedUser(user);
-                    setShowModalStatus(true);
-                  }}
-                />
-              </td>
-              <td>
-                <Button
-                  variant="danger"
-                  onClick={() => handleuserDetails(user)}
-                >
-                  <MdDelete />
-                </Button>
+          {currentUsers.length === 0 ? (
+            <tr>
+              <td colSpan="5">
+                <EmptyListMessage />
               </td>
             </tr>
-          ))}
+          ) : (
+            currentUsers.map((user) => (
+              <tr key={user.dni}>
+                <td>{`${user.first_name} ${user.last_name}`}</td>
+                <td>{user.dni}</td>
+                <td>{user.mobile_phone}</td>
+                <td>
+                  {user.role}
+                  <MdModeEdit
+                    onClick={() => {
+                      setSelectedUser(user);
+                      setShowModalRole(true);
+                    }}
+                  />
+                </td>
+                <td>
+                  {user.is_active ? "Activo" : "Inactivo"}
+                  <MdModeEdit
+                    onClick={() => {
+                      setSelectedUser(user);
+                      setShowModalStatus(true);
+                    }}
+                  />
+                </td>
+                <td>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleuserDetails(user)}
+                  >
+                    <MdDelete />
+                  </Button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </Table>
       <div style={{ display: "flex", justifyContent: "space-between" }}>

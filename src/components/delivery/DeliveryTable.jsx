@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Table, Button } from "react-bootstrap";
+import EmptyListMessage from "../layout/EmptyListMessage";
 
 const DeliveryTable = () => {
   const deliveries = useSelector((state) => state.delivery.deliveries);
@@ -25,7 +26,13 @@ const DeliveryTable = () => {
           </tr>
         </thead>
         <tbody>
-          {pendingDeliveries ? (
+          {pendingDeliveries.length === 0 ? (
+            <tr>
+              <td colSpan="5">
+                <EmptyListMessage />
+              </td>
+            </tr>
+          ) : (
             pendingDeliveries.map((delivery) => (
               <tr key={delivery._id}>
                 <td>{delivery.delivery_date}</td>
@@ -34,10 +41,6 @@ const DeliveryTable = () => {
                 <td>{delivery.status}</td>
               </tr>
             ))
-          ) : (
-            <tr>
-              <td colSpan="5">Aun no se han registrado repartos</td>
-            </tr>
           )}
         </tbody>
       </Table>

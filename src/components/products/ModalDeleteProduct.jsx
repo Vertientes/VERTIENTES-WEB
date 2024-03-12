@@ -15,11 +15,13 @@ const ModalDeleteProduct = ({ show, product, handleClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(deleteProduct({ id: product._id }));
-      setAlert({
-        variant: "success",
-        message: "¡Producto eliminado correctamente!",
-      });
+      const res = await dispatch(deleteProduct({ id: product._id }));
+      if (res.payload.success) {
+        setAlert({
+          variant: "success",
+          message: "¡Producto eliminado correctamente!",
+        });
+      }
     } catch (error) {
       setAlert({ variant: "danger", message: "Ha ocurrido un problema" });
     } finally {

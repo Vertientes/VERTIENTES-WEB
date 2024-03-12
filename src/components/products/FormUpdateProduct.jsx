@@ -35,7 +35,7 @@ const FormUpdateProduct = ({ show, product, handleClose }) => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        await dispatch(
+        const res = await dispatch(
           updateProduct({
             id: formData.id,
             name: formData.name,
@@ -46,10 +46,12 @@ const FormUpdateProduct = ({ show, product, handleClose }) => {
           })
         );
 
-        setAlert({
-          variant: "success",
-          message: "¡Producto actualizado correctamente!",
-        });
+        if (res.payload.success) {
+          setAlert({
+            variant: "success",
+            message: "¡Producto actualizado correctamente!",
+          });
+        }
       } catch (error) {
         setAlert({ variant: "danger", message: "Ha ocurrido un problema." });
       } finally {

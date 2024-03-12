@@ -231,3 +231,26 @@ export const updateOrderData = createAsyncThunk(
     }
   }
 );
+
+//Thunk para eliminar una order
+export const deleteOrderCompleted = createAsyncThunk(
+  "orders/renew_order",
+  async ({ id }) => {
+    const url_api = `${url_base}/delete_order/${id}`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
+
+    try {
+      const res = await axios.delete(url_api, headers);
+      if (res.data.success) {
+        return res.data.deletedOrder;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+);

@@ -36,7 +36,7 @@ const FormAddPromotion = ({ show, handleClose }) => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        await dispatch(
+        const res = await dispatch(
           createPromotion({
             description: formData.description,
             required_quantity: formData.required_quantity,
@@ -44,11 +44,12 @@ const FormAddPromotion = ({ show, handleClose }) => {
             file: formData.file,
           })
         );
-
-        setAlert({
-          variant: "success",
-          message: "¡Promocion creada correctamente!",
-        });
+        if (res.payload.success) {
+          setAlert({
+            variant: "success",
+            message: "¡Promoción creada correctamente!",
+          });
+        }
       } catch (error) {
         setAlert({ variant: "danger", message: "Ha ocurrido un problema." });
       } finally {

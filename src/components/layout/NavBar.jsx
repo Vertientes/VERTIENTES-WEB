@@ -16,8 +16,10 @@ const MenuNavbar = () => {
   useEffect(() => {
     if (role == "super_admin") {
       setMenuItems(menuItemsSuperAdmin);
-    } else {
+    } else if (role === "admin") {
       setMenuItems(menuItemsAdmin);
+    } else {
+      navigation("/");
     }
   }, [role]);
   return (

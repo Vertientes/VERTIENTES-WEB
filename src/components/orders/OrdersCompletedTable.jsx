@@ -5,31 +5,36 @@ import { FaTruckArrowRight } from "react-icons/fa6";
 import { BiDetail } from "react-icons/bi";
 import ModalDetailOrder from "./ModalDetailOrder";
 import { MdDeleteForever } from "react-icons/md";
-
+import EmptyListMessage from "../layout/EmptyListMessage";
+import DeleteOrderModal from "./DeleteOrderModal";
 
 const OrdersCompletedTable = () => {
   const [orderDetail, setOrderDetail] = useState({});
-  const orders = useSelector((state) => state.orders.completedOrders);
   const [modalVisible, setModalVisible] = useState(false);
-  const [editOrderModalVisible, setEditOrderModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [orderId, setOrderId] = useState('')
+  const [orderIdToDelete, setOrderIdToDelete] = useState("");
+
+  const orders = useSelector((state) => state.orders.completedOrders);
 
   const handleDeleteOrder = (orderId) => {
-    setOrderId(orderId);
+    setOrderIdToDelete(orderId);
     setDeleteModalVisible(true);
   };
 
-
   const closeModal = () => {
     setModalVisible(false);
-    setEditOrderModalVisible(false);
     setDeleteModalVisible(false);
+  };
+
+  const handleDeleteConfirmed = (orderId) => {
+    // Aquí debes agregar la lógica para eliminar la orden con el ID proporcionado
+    console.log("Eliminando orden con ID:", orderId);
+    // Luego cierras el modal
+    closeModal();
   };
 
   return (
     <div>
-      
       <Table bordered hover>
         <thead bg="">
           <tr>
@@ -41,7 +46,13 @@ const OrdersCompletedTable = () => {
           </tr>
         </thead>
         <tbody>
-          {orders ? (
+          {orders.length === 0 ? (
+            <tr>
+              <td colSpan="5">
+                <EmptyListMessage />
+              </td>
+            </tr>
+          ) : (
             orders.map((order) => (
               <tr key={order._id}>
                 <td>{order.order_date}</td>
@@ -71,10 +82,6 @@ const OrdersCompletedTable = () => {
                 </td>
               </tr>
             ))
-          ) : (
-            <tr>
-              <td colSpan="5">Aun no se han registrado pedidos pendientes</td>
-            </tr>
           )}
         </tbody>
       </Table>
@@ -86,11 +93,13 @@ const OrdersCompletedTable = () => {
           closeModal={closeModal}
         />
       )}
-{/* 
-      <DeliveryModal
-        orderId={orderId}
+
+      <DeleteOrderModal
+        orderId={orderIdToDelete}
+        visible={deleteModalVisible}
         closeModal={closeModal}
-      /> */}
+        handleDelete={handleDeleteConfirmed}
+      />
     </div>
   );
 };

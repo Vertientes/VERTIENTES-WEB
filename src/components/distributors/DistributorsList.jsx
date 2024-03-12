@@ -6,6 +6,7 @@ import { MdDelete } from "react-icons/md";
 import { BiDetail } from "react-icons/bi";
 import ModalDetails from "./ModalDetails";
 import AddDistributorModal from "./AddDistributorModal";
+import EmptyListMessage from "../layout/EmptyListMessage";
 
 const DistributorsList = () => {
   const distributors = useSelector((state) => state.distributor.distributors);
@@ -29,7 +30,6 @@ const DistributorsList = () => {
     setShowModal(false);
   };
 
-
   return (
     <div>
       <Button variant="secondary" onClick={() => handleModal()}>
@@ -46,7 +46,13 @@ const DistributorsList = () => {
           </tr>
         </thead>
         <tbody>
-          {distributors && distributors.length > 0 ? (
+          {distributors.length === 0 ? (
+            <tr>
+              <td colSpan="5">
+                <EmptyListMessage />
+              </td>
+            </tr>
+          ) : (
             distributors.map((distributor) => (
               <tr key={distributor.dni}>
                 <td>{`${distributor.first_name} ${distributor.last_name}`}</td>
@@ -63,10 +69,6 @@ const DistributorsList = () => {
                 </td>
               </tr>
             ))
-          ) : (
-            <tr>
-              <td colSpan="5">No hay distribuidores disponibles</td>
-            </tr>
           )}
         </tbody>
       </Table>

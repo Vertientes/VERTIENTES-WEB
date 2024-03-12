@@ -5,6 +5,7 @@ import { FaTruckArrowRight } from "react-icons/fa6";
 import { BiDetail } from "react-icons/bi";
 import ModalDetailOrder from "../orders/ModalDetailOrder";
 import { DeliveryModal } from "../orders/DeliveryModal";
+import EmptyListMessage from "../layout/EmptyListMessage";
 
 const RequestsTable = () => {
   const [orderDetail, setOrderDetail] = useState({});
@@ -43,7 +44,13 @@ const RequestsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredOrders ? (
+          {filteredOrders.length === 0 ? (
+            <tr>
+              <td colSpan="5">
+                <EmptyListMessage />
+              </td>
+            </tr>
+          ) : (
             filteredOrders.map((order) => (
               <tr key={order._id}>
                 <td>{order.order_date}</td>
@@ -81,10 +88,6 @@ const RequestsTable = () => {
                 </td>
               </tr>
             ))
-          ) : (
-            <tr>
-              <td colSpan="5">Aun no se han registrado pedidos pendientes</td>
-            </tr>
           )}
         </tbody>
       </Table>

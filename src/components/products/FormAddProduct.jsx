@@ -34,7 +34,7 @@ const FormAddProduct = ({ show, handleClose }) => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        await dispatch(
+        const res = await dispatch(
           newProduct({
             name: formData.name,
             price: formData.price,
@@ -43,11 +43,12 @@ const FormAddProduct = ({ show, handleClose }) => {
             file: formData.file,
           })
         );
-
-        setAlert({
-          variant: "success",
-          message: "¡Producto creado correctamente!",
-        });
+        if (res.payload.success) {
+          setAlert({
+            variant: "success",
+            message: "¡Producto creado correctamente!",
+          });
+        }
       } catch (error) {
         setAlert({ variant: "danger", message: "Ha ocurrido un problema." });
       } finally {

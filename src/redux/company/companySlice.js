@@ -6,21 +6,7 @@ import {
 } from "./companyThunk";
 
 const initialState = {
-  company: {
-    holder_cuil: "",
-    holder_name: "",
-    neighborhood: "",
-    street: "",
-    house_number: "",
-    city: "",
-    postal_code: "",
-    business_name: "",
-    business_name_cuil: "",
-    email: "",
-    alias: "",
-    cvu: "",
-    company_drum_quantity: 0,
-  },
+  company: {},
   loading: "idle",
   error: null,
 };
