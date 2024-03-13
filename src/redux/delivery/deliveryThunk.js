@@ -2,11 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const url_base = import.meta.env.VITE_BACKEND_API;
-const token = localStorage.getItem("token");
 
 export const newDelivery = createAsyncThunk(
   "delivery/send-new-delivery",
-  async ({ id, delivery_date }) => {
+  async ({ id, delivery_date }, { getState }) => {
+    const { token } = getState().auth;
     const url_api = url_base + `/new_delivery/${id}`;
     const headers = {
       headers: {
@@ -35,8 +35,9 @@ export const newDelivery = createAsyncThunk(
 
 export const getAllDeliveries = createAsyncThunk(
   "delivery/all_deliveries",
-  async (_) => {
+  async (_, { getState }) => {
     const url_api = url_base + "/all_deliveries";
+    const { token } = getState().auth;
     const headers = {
       headers: {
         "Content-Type": "application/json",

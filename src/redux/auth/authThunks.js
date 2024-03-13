@@ -45,8 +45,7 @@ export const signUpDelivery = createAsyncThunk(
 export const getMyProfile = createAsyncThunk(
   "auth/get-profile",
   async (_, { getState }) => {
-    const { auth } = getState();
-    const token = localStorage.getItem('token');
+    const { token } = getState().auth;
     const url_api = process.env.EXPO_PUBLIC_URL_API + "/profile";
 
     const headers = {
