@@ -1,0 +1,11 @@
+.user-row {
+  background-color: #ffffff !important; /* Color de fondo por defecto */
+}
+
+.user-with-plan-row {
+  background-color: #ffd700 !important; /* Color para usuarios con plan */
+}
+
+.delivery-row {
+  background-color: #87ceeb !important; /* Color para usuarios de entrega */
+}

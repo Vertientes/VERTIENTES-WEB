@@ -1,5 +1,9 @@
+import { useEffect } from "react";
 import { Modal } from "react-bootstrap";
 const ModalDetails = ({ showModal, closeModal, selectedDistributor }) => {
+  useEffect(() => {
+    console.log(selectedDistributor);
+  }, [selectedDistributor]);
   return (
     <Modal show={showModal} onHide={closeModal}>
       <Modal.Header closeButton>

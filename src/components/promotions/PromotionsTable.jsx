@@ -52,45 +52,49 @@ const PromotionsTable = () => {
           ) : (
             promotions.map((promotion) => (
               <tr key={promotion._id}>
-                <Card style={{ marginBottom: "10px", width: "100%" }}>
-                  <Row className="p-3">
-                    <Col
-                      xs={2}
-                      className="d-flex justify-content-center align-items-center text-center"
-                    >
-                      <Card.Img
-                        src={promotion.img}
-                        style={{ borderRadius: "50%" }}
-                        width={5}
-                      />
-                    </Col>
-                    <Col xs={2} className="text-center">
-                      <Card.Text>{promotion.description}</Card.Text>
-                    </Col>
-                    <Col xs={2} className="text-center">
-                      <Card.Text>{promotion.required_quantity}</Card.Text>
-                    </Col>
-                    <Col xs={1} className="text-center">
-                      <Card.Text>{promotion.discounted_porcentaje}</Card.Text>
-                    </Col>
-                    <Col xs={1} className="text-center">
-                      <Button
-                        variant="secondary"
-                        onClick={() => handleOpenModalUpdate(promotion)}
+                <td>
+                  <Card style={{ marginBottom: "10px", width: "100%" }}>
+                    <Row className="p-3">
+                      <Col
+                        xs={2}
+                        className="d-flex justify-content-center align-items-center text-center"
                       >
-                        Editar
-                      </Button>
-                    </Col>
-                    <Col xs={2} className="text-center">
-                      <Button
-                        variant="secondary"
-                        onClick={() => handleOpenModalDelete(promotion)}
-                      >
-                        Eliminar
-                      </Button>
-                    </Col>
-                  </Row>
-                </Card>
+                        <Card.Img
+                          src={promotion.img}
+                          style={{ borderRadius: "50%" }}
+                          width={5}
+                        />
+                      </Col>
+                      <Col xs={2} className="text-center">
+                        <Card.Text>{promotion.description}</Card.Text>
+                      </Col>
+                      <Col xs={2} className="text-center">
+                        <Card.Text>{promotion.required_quantity}</Card.Text>
+                      </Col>
+                      <Col xs={1} className="text-center">
+                        <Card.Text>
+                          {promotion.discounted_porcentaje}
+                        </Card.Text>
+                      </Col>
+                      <Col xs={1} className="text-center">
+                        <Button
+                          variant="secondary"
+                          onClick={() => handleOpenModalUpdate(promotion)}
+                        >
+                          Editar
+                        </Button>
+                      </Col>
+                      <Col xs={2} className="text-center">
+                        <Button
+                          variant="secondary"
+                          onClick={() => handleOpenModalDelete(promotion)}
+                        >
+                          Eliminar
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Card>
+                </td>
               </tr>
             ))
           )}

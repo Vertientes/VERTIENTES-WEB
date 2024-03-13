@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Table, Button } from "react-bootstrap";
-import { FaTruckArrowRight } from "react-icons/fa6";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Table, Alert } from "react-bootstrap";
 import { BiDetail } from "react-icons/bi";
 import ModalDetailOrder from "./ModalDetailOrder";
 import { MdDeleteForever } from "react-icons/md";
 import EmptyListMessage from "../layout/EmptyListMessage";
 import DeleteOrderModal from "./DeleteOrderModal";
+import { deleteOrderCompleted } from "../../redux/orders/orderThunk";
 
 const OrdersCompletedTable = () => {
+  const dispatch = useDispatch();
   const [orderDetail, setOrderDetail] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [orderIdToDelete, setOrderIdToDelete] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertVariant, setAlertVariant] = useState("");
 
   const orders = useSelector((state) => state.orders.completedOrders);
 
@@ -26,15 +29,32 @@ const OrdersCompletedTable = () => {
     setDeleteModalVisible(false);
   };
 
-  const handleDeleteConfirmed = (orderId) => {
-    // Aquí debes agregar la lógica para eliminar la orden con el ID proporcionado
-    console.log("Eliminando orden con ID:", orderId);
-    // Luego cierras el modal
-    closeModal();
+  const handleDeleteConfirmed = async (orderId) => {
+    try {
+      const res = await dispatch(deleteOrderCompleted({ id: orderId }));
+      if (res.payload.success) {
+        setAlertVariant("success");
+        setAlertMessage("¡Orden eliminada exitosamente!");
+      } else {
+        setAlertVariant("danger");
+        setAlertMessage("Error al eliminar la orden. Inténtalo de nuevo.");
+      }
+    } catch (error) {
+      setAlertVariant("danger");
+      setAlertMessage("Error al eliminar la orden. Inténtalo de nuevo.");
+    } finally {
+      closeModal();
+    }
   };
 
   return (
     <div>
+      {alertMessage && (
+        <Alert variant={alertVariant} onClose={() => setAlertMessage("")} dismissible>
+          {alertMessage}
+        </Alert>
+      )}
+
       <Table bordered hover>
         <thead bg="">
           <tr>
@@ -61,7 +81,7 @@ const OrdersCompletedTable = () => {
                 </td>
                 <td>{order.observation}</td>
                 <td align="center">
-                  <BiDetail // Icono para mostrar detalles
+                  <BiDetail
                     onClick={() => {
                       setOrderDetail(order);
                       setModalVisible(true);
@@ -72,7 +92,6 @@ const OrdersCompletedTable = () => {
                 </td>
                 <td className="d-flex justify-content-between">
                   <div className="ml-3">
-                    {/* Agregamos un margen izquierdo para espaciar */}
                     <MdDeleteForever
                       className="action-icon"
                       onClick={() => handleDeleteOrder(order._id)}

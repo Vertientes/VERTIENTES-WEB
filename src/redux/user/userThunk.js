@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const url_base = import.meta.env.VITE_BACKEND_API;
-
+const token = localStorage.getItem("token");
 export const signUp = createAsyncThunk("user/signup", async ({ user_data }) => {
   console.log(user_data);
   const url_api = url_base + "/sign_up";
@@ -22,7 +22,6 @@ export const signUp = createAsyncThunk("user/signup", async ({ user_data }) => {
 export const getUsersActive = createAsyncThunk(
   "user/getUsersActive",
   async (_, { rejectWithValue, getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/all_users_active`;
     const headers = {
       headers: {
@@ -43,7 +42,6 @@ export const getUsersActive = createAsyncThunk(
 export const getAllUsers = createAsyncThunk(
   "user/getAllUsers",
   async (_, { rejectWithValue, getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/all_users`;
     const headers = {
       headers: {
@@ -82,8 +80,15 @@ export const getUserProfile = createAsyncThunk(
 export const updateUserBySuperAdmin = createAsyncThunk(
   "user/updateUserBySuperAdmin",
   async ({ id, userData }, { rejectWithValue }) => {
+    const url_api = `${url_base}/update_user_data_for_super_admin/${id}`;
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
     try {
-      const res = await axios.put(url_base + `${id}`, userData);
+      const res = await axios.put(url_api, userData, headers);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -96,7 +101,6 @@ export const changeUserRoleWithPlan = createAsyncThunk(
   "user/changeUserRoleWithPlan",
   async ({ id, role }, { rejectWithValue, getState }) => {
     console.log(role);
-    const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/change_user_with_plan/${id}`;
     const headers = {
       headers: {
@@ -118,8 +122,7 @@ export const changeUserRoleWithPlan = createAsyncThunk(
 export const desactivateUser = createAsyncThunk(
   "user/deactivateUser",
   async ({ id }, { rejectWithValue, getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
-    const url_api = `${url_base}/desactivate_user/${id}`;
+    const url_api = `${url_base}/deactivate_user/${id}`;
     const headers = {
       headers: {
         "Content-Type": "application/json",
@@ -127,7 +130,7 @@ export const desactivateUser = createAsyncThunk(
       },
     };
     try {
-      const res = await axios.put(url_api, headers);
+      const res = await axios.put(url_api, {}, headers);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -139,7 +142,6 @@ export const desactivateUser = createAsyncThunk(
 export const activateUser = createAsyncThunk(
   "user/activateUser",
   async ({ id }, { rejectWithValue, getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/activate_user/${id}`;
     const headers = {
       headers: {
@@ -148,7 +150,7 @@ export const activateUser = createAsyncThunk(
       },
     };
     try {
-      const res = await axios.put(url_api);
+      const res = await axios.put(url_api, {}, headers);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -160,7 +162,6 @@ export const activateUser = createAsyncThunk(
 export const changeUserPassword = createAsyncThunk(
   "user/changeUserPassword",
   async ({ id, passwords }, { rejectWithValue, getState }) => {
-    const { token } = getState().auth; // Obtener el token del estado
     const url_api = `${url_base}/activate_user/${id}`;
     const headers = {
       headers: {
@@ -181,21 +182,14 @@ export const changeUserPassword = createAsyncThunk(
 export const getOneUser = createAsyncThunk(
   "user/getOneUser",
   async ({ id }, { rejectWithValue }) => {
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    };
     try {
-      const res = await axios.get(`/api/users/${id}`);
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-// Thunk para actualizar los datos de dirección de un usuario
-export const updateAddressUserData = createAsyncThunk(
-  "user/updateAddressUserData",
-  async ({ id, addressData }, { rejectWithValue }) => {
-    try {
-      const res = await axios.put(`/api/users/${id}/address`, addressData);
+      const res = await axios.get(`/api/users/${id}`, headers);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

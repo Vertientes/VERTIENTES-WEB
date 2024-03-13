@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Table, Button, Modal } from "react-bootstrap";
-import { FaTruckArrowRight } from "react-icons/fa6";
-import { MdDelete } from "react-icons/md";
-import { BiDetail } from "react-icons/bi";
+
 import ModalDetails from "./ModalDetails";
+import { FaCircleInfo } from "react-icons/fa6";
 import AddDistributorModal from "./AddDistributorModal";
 import EmptyListMessage from "../layout/EmptyListMessage";
 
@@ -61,10 +60,10 @@ const DistributorsList = () => {
                 <td>{`${distributor.address.street} ${distributor.address.house_number}, ${distributor.address.neighborhood}, ${distributor.address.location}`}</td>
                 <td>
                   <Button
-                    variant="danger"
+                    variant="secondary"
                     onClick={() => handleDistributorDetails(distributor)}
                   >
-                    <MdDelete />
+                    <FaCircleInfo />
                   </Button>
                 </td>
               </tr>

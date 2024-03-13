@@ -28,8 +28,7 @@ const UpdateRoleModal = ({ show, id, role, closeModal }) => {
       const data_registered = await dispatch(
         changeUserRoleWithPlan({ id: id, role: newRole })
       );
-      console.log(data_registered.payload.success);
-      if (data_registered.payload?.user) {
+      if (data_registered.payload.success) {
         setAlert({
           message: "Usuario editado con exito.",
           variant: "success",

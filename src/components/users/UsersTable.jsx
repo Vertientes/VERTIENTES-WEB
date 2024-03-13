@@ -6,6 +6,8 @@ import AddUserModal from "./AddUserModal";
 import UpdateRoleModal from "./UpdateRoleModal";
 import UpdateStatusModal from "./UpdateStatusModal";
 import EmptyListMessage from "../layout/EmptyListMessage";
+import { FaCircleInfo } from "react-icons/fa6";
+import DetailsUserModal from "./DetailsUserModal";
 
 const UsersTable = () => {
   const users = useSelector((state) => state.user.users);
@@ -13,12 +15,14 @@ const UsersTable = () => {
   const [showModalAdd, setShowModalAdd] = useState(false);
   const [showModalRole, setShowModalRole] = useState(false);
   const [showModalStatus, setShowModalStatus] = useState(false);
+  const [showModalDetails, setShowModalDetails] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
 
   const handleuserDetails = (user) => {
+    console.log(user);
     setSelectedUser(user);
-    setShowModalRole(true);
+    setShowModalDetails(true);
   };
 
   const handleModal = () => {
@@ -35,6 +39,10 @@ const UsersTable = () => {
 
   const closeModalStatus = () => {
     setShowModalStatus(false);
+  };
+
+  const closeModalDetails = () => {
+    setShowModalDetails(false);
   };
 
   // Calcular el índice del último y primer elemento de la página actual
@@ -56,6 +64,17 @@ const UsersTable = () => {
   // Cambiar a la página anterior
   const prevPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
+  };
+
+  const getClassForUserRow = (user) => {
+    switch (user.role) {
+      case "user_with_plan":
+        return "table-danger";
+      case "delivery":
+        return "table-primary";
+      default:
+        return "table-light";
+    }
   };
 
   return (
@@ -83,7 +102,7 @@ const UsersTable = () => {
             </tr>
           ) : (
             currentUsers.map((user) => (
-              <tr key={user.dni}>
+              <tr key={user.dni} className={getClassForUserRow(user)}>
                 <td>{`${user.first_name} ${user.last_name}`}</td>
                 <td>{user.dni}</td>
                 <td>{user.mobile_phone}</td>
@@ -107,10 +126,10 @@ const UsersTable = () => {
                 </td>
                 <td>
                   <Button
-                    variant="danger"
+                    variant="secondary"
                     onClick={() => handleuserDetails(user)}
                   >
-                    <MdDelete />
+                    <FaCircleInfo />
                   </Button>
                 </td>
               </tr>
@@ -147,6 +166,12 @@ const UsersTable = () => {
         status={selectedUser?.is_active}
         show={showModalStatus}
         closeModal={closeModalStatus}
+      />
+
+      <DetailsUserModal
+        user={selectedUser}
+        show={showModalDetails}
+        closeModal={closeModalDetails}
       />
     </div>
   );

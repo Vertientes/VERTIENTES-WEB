@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { activateUser, desactivateUser } from "../../redux/user/userThunk";
+import {
+  activateUser,
+  desactivateUser,
+  getAllUsers,
+  getUsersActive,
+} from "../../redux/user/userThunk";
 
 const UpdateStatusModal = ({ show, id, status, closeModal }) => {
   const dispatch = useDispatch();
@@ -10,25 +15,35 @@ const UpdateStatusModal = ({ show, id, status, closeModal }) => {
 
   const handleChange = (e) => {
     const { value } = e.target;
-    setNewStatus(value);
+    setNewStatus(value === "true"); // Convertir la cadena "true" o "false" a un booleano
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      newStatus
+      const res = newStatus
         ? await dispatch(activateUser({ id }))
         : await dispatch(desactivateUser({ id }));
 
-      setAlert({
-        message: "Estado actualizado exitosamente.",
-        variant: "success",
-      });
+      if (res.payload.success) {
+        setAlert({
+          message: "Estado actualizado exitosamente.",
+          variant: "success",
+        });
+        await dispatch(getUsersActive());
+        await dispatch(getAllUsers());
+      }
     } catch (error) {
       setAlert({
         message: "Ha ocurrido un error interno.",
         variant: "danger",
+      });
+    } finally {
+      closeModal();
+      setAlert({
+        message: "",
+        variant: "",
       });
     }
   };

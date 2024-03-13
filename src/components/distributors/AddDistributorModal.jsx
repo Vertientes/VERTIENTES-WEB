@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { newDistributor } from "../../redux/distributors/distributorThunk";
+import { getAllDistributors, newDistributor } from "../../redux/distributors/distributorThunk";
 
 const AddDistributorModal = ({ show, closeModal }) => {
   const dispatch = useDispatch();
@@ -47,18 +47,23 @@ const AddDistributorModal = ({ show, closeModal }) => {
       const data_registered = await dispatch(
         newDistributor({ distributor_data: newDistributorData })
       );
-      console.log(data_registered.payload.success);
-      if (data_registered.payload?.user) {
+      if (data_registered.payload.success) {
         setAlert({
           message: "Repartidor creado con éxito.",
           variant: "success",
         });
-        await dispatch(getAllDistributors());
       }
     } catch (error) {
       setAlert({
         message: "Ha ocurrido un error interno.",
         variant: "danger",
+      });
+    } finally {
+      await dispatch(getAllDistributors());
+      closeModal();
+      setAlert({
+        message: "",
+        variant: "",
       });
     }
   };

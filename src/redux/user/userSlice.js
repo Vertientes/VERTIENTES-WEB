@@ -9,7 +9,6 @@ import {
   activateUser,
   changeUserPassword,
   getOneUser,
-  updateAddressUserData,
 } from "./userThunk";
 
 const initialState = {
@@ -84,6 +83,19 @@ const userSlice = createSlice({
       state.success = true;
     });
     builder.addCase(changeUserRoleWithPlan.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    });
+
+    // updateUserBySuperAdmin
+    builder.addCase(updateUserBySuperAdmin.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(updateUserBySuperAdmin.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = true;
+    });
+    builder.addCase(updateUserBySuperAdmin.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
     });

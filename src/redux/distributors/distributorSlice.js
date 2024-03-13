@@ -14,7 +14,7 @@ export const deliverySlice = createSlice({
       .addCase(newDistributor.pending, (state) => {
         state.loading = "pending";
       })
-      .addCase(newDistributor.fulfilled, (state) => {
+      .addCase(newDistributor.fulfilled, (state, action) => {
         state.loading = "fulfilled";
       })
       .addCase(newDistributor.rejected, (state) => {

@@ -4,10 +4,9 @@ import axios from "axios";
 const url_base = import.meta.env.VITE_BACKEND_API;
 const token = localStorage.getItem("token");
 
-
 export const newDistributor = createAsyncThunk(
   "distributor/sign_up_delivery",
-  async ({ distributor_data }) => {
+  async ({ distributor_data }, { rejectWithValue }) => {
     const url_api = `${url_base}/sign_up_delivery`;
     const headers = {
       headers: {
@@ -24,13 +23,10 @@ export const newDistributor = createAsyncThunk(
       );
 
       if (distributorSent.data) {
-        console.log(distributorSent.data);
         return distributorSent;
       }
     } catch (error) {
-      console.log(error);
-      console.log(error.message);
-      throw error;
+      return rejectWithValue(error.response.data);
     }
   }
 );
