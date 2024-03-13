@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { signUp } from "../../redux/user/userThunk";
 
-
 const AddUserModal = ({ show, closeModal }) => {
   const dispatch = useDispatch();
   const [newUserData, setnewUserData] = useState({
@@ -148,6 +147,13 @@ const AddUserModal = ({ show, closeModal }) => {
               onChange={handleAddressChange}
             />
             <Form.Control
+              type="text"
+              placeholder="location"
+              name="location"
+              value={newUserData.address.location}
+              onChange={handleAddressChange}
+            />
+            <Form.Control
               as="select"
               name="zone"
               value={newUserData.address.zone}
@@ -158,7 +164,7 @@ const AddUserModal = ({ show, closeModal }) => {
             </Form.Control>
           </Form.Group>
           <Button variant="primary" type="submit">
-            Crear Repartidor
+            Crear usuario
           </Button>
         </Form>
       </Modal.Body>
