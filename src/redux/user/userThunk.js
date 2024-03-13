@@ -100,7 +100,6 @@ export const updateUserBySuperAdmin = createAsyncThunk(
 export const changeUserRoleWithPlan = createAsyncThunk(
   "user/changeUserRoleWithPlan",
   async ({ id, role }, { rejectWithValue, getState }) => {
-    console.log(role);
     const url_api = `${url_base}/change_user_with_plan/${id}`;
     const headers = {
       headers: {
